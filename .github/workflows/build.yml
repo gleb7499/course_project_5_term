@@ -18,6 +18,31 @@ jobs:
         with:
           java-version: 17
           distribution: 'zulu' # Alternative distribution options are available
+      - name: Set up Firebase
+        run: |
+          echo "{
+            \"project_info\": {
+              \"project_number\": \"${{ secrets.FIREBASE_PROJECT_NUMBER }}\",
+              \"project_id\": \"${{ secrets.FIREBASE_PROJECT_ID }}\",
+              \"storage_bucket\": \"${{ secrets.FIREBASE_STORAGE_BUCKET }}\"
+            },
+            \"client\": [
+              {
+                \"client_info\": {
+                  \"mobilesdk_app_id\": \"${{ secrets.FIREBASE_APP_ID }}\",
+                  \"android_client_info\": {
+                    \"package_name\": \"com.example.lifeline\"
+                  }
+                },
+                \"api_key\": [
+                  {
+                    \"current_key\": \"${{ secrets.FIREBASE_API_KEY }}\"
+                  }
+                ]
+              }
+            ],
+            \"configuration_version\": \"1\"
+          }" > $GITHUB_WORKSPACE/app/google-services.json
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
