@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     id("org.sonarqube") version "5.1.0.4882"
+    id("com.google.gms.google-services")
 }
 
 sonar {
@@ -49,4 +50,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.auth)
 }
