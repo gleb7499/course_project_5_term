@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 public class HelloActivity extends AppCompatActivity {
 
     private ImageButton nextButton;
+    private ProgressBar progressBar;
     private int counter_fragments = 0;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -60,6 +62,9 @@ public class HelloActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.imageButtonNext);
         setMargin(nextButton);
 
+        progressBar = findViewById(R.id.progressBar);
+        setMargin(progressBar);
+
         mAuth = FirebaseAuth.getInstance();
 
         fragments = new ArrayList<>();
@@ -84,14 +89,18 @@ public class HelloActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (counter_fragments == fragments.size()) {
-                    if (isRegister) {
-                        registerUser();
-                    } else {
-                        loginUser();
+                    if (password != null) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        nextButton.setVisibility(View.GONE);
+                        if (isRegister) {
+                            registerUser();
+                        } else {
+                            loginUser();
+                        }
                     }
                 } else {
                     if (counter_fragments == fragments.size() - 1) {
-                        if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        if (email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                             nextFragment(fragments.get(counter_fragments++));
                         } else {
                             Toast.makeText(HelloActivity.this, "Неверный email", Toast.LENGTH_SHORT).show();
@@ -177,6 +186,8 @@ public class HelloActivity extends AppCompatActivity {
                         Toast.makeText(HelloActivity.this, "Произошла ошибка", Toast.LENGTH_LONG).show();
                     }
                 }
+                progressBar.setVisibility(View.GONE);
+                nextButton.setVisibility(View.VISIBLE);
             }
         });
     }
