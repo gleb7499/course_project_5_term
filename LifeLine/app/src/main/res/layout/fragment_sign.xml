@@ -7,7 +7,6 @@
     android:background="@color/background_layout"
     tools:context=".Authantication.SignFragment">
 
-
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
@@ -32,7 +31,6 @@
         android:hint="Повторите пароль"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,4 +54,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonSwitchEntryMethods"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/background_button"
+        android:text="Регистрация"
+        android:textSize="16sp"
+        app:cornerRadius="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

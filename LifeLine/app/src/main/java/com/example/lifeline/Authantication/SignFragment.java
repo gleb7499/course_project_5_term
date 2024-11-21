@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
@@ -27,12 +28,12 @@ public class SignFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String data);
+        void onFragmentInteraction(String data, boolean isRegister);
     }
 
-    private void sendDataToActivity(String data) {
+    private void sendDataToActivity(String data, boolean isRegister) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(data);
+            mListener.onFragmentInteraction(data, isRegister);
         } else {
             Log.d("EmailFragment", "mListener is null");
         }
@@ -42,8 +43,28 @@ public class SignFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign, container, false);
 
+        EditText editTextPasswordAgain = view.findViewById(R.id.editTextPasswordAgain);
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
-        editTextPassword.addTextChangedListener(new TextWatcher() {
+
+        Button buttonSwitchEntryMethods = view.findViewById(R.id.buttonSwitchEntryMethods);
+        buttonSwitchEntryMethods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonSwitchEntryMethods.getText().equals("Регистрация")) {
+                    buttonSwitchEntryMethods.setText("Вход");
+                    editTextPasswordAgain.setText("");
+                    editTextPassword.setText("");
+                    editTextPasswordAgain.setVisibility(View.GONE);
+                } else {
+                    buttonSwitchEntryMethods.setText("Регистрация");
+                    editTextPasswordAgain.setText("");
+                    editTextPassword.setText("");
+                    editTextPasswordAgain.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        editTextPasswordAgain.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Действия до изменения текста
@@ -52,12 +73,35 @@ public class SignFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Действия при изменении текста
-                sendDataToActivity(s.toString());
+                if (!s.toString().isEmpty() && s.toString().equals(editTextPassword.getText().toString())) {
+                    sendDataToActivity(s.toString(), true);
+                } else {
+                    editTextPasswordAgain.setError("Пароли не совпадают");
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 // Действия после изменения текста
+            }
+        });
+
+        editTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty()) {
+                    sendDataToActivity(s.toString(), false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
