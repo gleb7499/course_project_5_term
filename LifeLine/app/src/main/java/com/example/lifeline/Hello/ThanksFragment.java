@@ -11,8 +11,7 @@ import com.example.lifeline.R;
 
 public class ThanksFragment extends Fragment {
 
-    public ThanksFragment() {
-    }
+    public ThanksFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
