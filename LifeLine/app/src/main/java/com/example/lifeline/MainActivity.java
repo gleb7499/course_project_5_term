@@ -41,26 +41,22 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         FirebaseApp.initializeApp(this);
 
-        Intent intent = new Intent(this, HelloActivity.class);
-        startActivity(intent);
-        finish();
-
-//        if (isFirstRun()) {
-//            // Запустить приветственного активити
-//            Intent intent = new Intent(this, HelloActivity.class);
-//            startActivity(intent);
-//            finish();
-//        } else {
-//            user = FirebaseAuth.getInstance().getCurrentUser();
-//            if (user == null) {
-//                // Запустить активити входа в систему
-//                Intent intent = new Intent(this, AuthActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//            // Запустить основное активити
-//            setContentView(R.layout.activity_main);
-//        }
+        if (isFirstRun()) {
+            // Запустить приветственного активити
+            Intent intent = new Intent(this, HelloActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                // Запустить активити входа в систему
+                Intent intent = new Intent(this, AuthActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            // Запустить основное активити
+            setContentView(R.layout.activity_main);
+        }
     }
 
     private boolean isFirstRun() {
