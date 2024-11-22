@@ -1,8 +1,8 @@
 name: SonarQube Cloud
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -42,7 +42,7 @@ jobs:
               }
             ],
             \"configuration_version\": \"1\"
-          }" > $GITHUB_WORKSPACE/app/google-services.json
+          }" > $GITHUB_WORKSPACE/LifeLine/app/google-services.json
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
