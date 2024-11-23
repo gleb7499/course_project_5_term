@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_layout"
+    android:background="@color/colorPrimaryDark"
     tools:context=".authentication.SignFragment">
 
     <EditText
@@ -37,11 +37,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.55" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSwitchEntryMethods"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:backgroundTint="@color/background_button"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Регистрация"
         android:textSize="16sp"
         app:cornerRadius="17dp"
@@ -49,6 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.75"
+        style="@style/Base.Theme.LifeLine"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
