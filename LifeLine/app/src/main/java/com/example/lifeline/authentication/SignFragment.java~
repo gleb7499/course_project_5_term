@@ -1,4 +1,4 @@
-package com.example.lifeline.Authantication;
+package com.example.lifeline.authentication;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +19,7 @@ public class SignFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public SignFragment() {
+        // Required empty public constructor
     }
 
     public static SignFragment newInstance(SignFragment.OnFragmentInteractionListener listener) {
@@ -47,20 +48,17 @@ public class SignFragment extends Fragment {
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
 
         Button buttonSwitchEntryMethods = view.findViewById(R.id.buttonSwitchEntryMethods);
-        buttonSwitchEntryMethods.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (buttonSwitchEntryMethods.getText().equals("Регистрация")) {
-                    buttonSwitchEntryMethods.setText("Вход");
-                    editTextPasswordAgain.setText("");
-                    editTextPassword.setText("");
-                    editTextPasswordAgain.setVisibility(View.GONE);
-                } else {
-                    buttonSwitchEntryMethods.setText("Регистрация");
-                    editTextPasswordAgain.setText("");
-                    editTextPassword.setText("");
-                    editTextPasswordAgain.setVisibility(View.VISIBLE);
-                }
+        buttonSwitchEntryMethods.setOnClickListener(v -> {
+            if (buttonSwitchEntryMethods.getText().equals("Регистрация")) {
+                buttonSwitchEntryMethods.setText("Вход");
+                editTextPasswordAgain.setText("");
+                editTextPassword.setText("");
+                editTextPasswordAgain.setVisibility(View.GONE);
+            } else {
+                buttonSwitchEntryMethods.setText("Регистрация");
+                editTextPasswordAgain.setText("");
+                editTextPassword.setText("");
+                editTextPasswordAgain.setVisibility(View.VISIBLE);
             }
         });
 

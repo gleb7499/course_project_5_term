@@ -1,4 +1,4 @@
-package com.example.lifeline.Hello;
+package com.example.lifeline.hello;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import com.example.lifeline.R;
 public class HelloFragment extends Fragment {
 
     public HelloFragment() {
+        // Required empty public constructor
     }
 
     @Override

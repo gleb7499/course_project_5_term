@@ -1,4 +1,4 @@
-package com.example.lifeline.Authantication;
+package com.example.lifeline.authentication;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +18,7 @@ public class EmailFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public EmailFragment() {
+        // Required empty public constructor
     }
 
     public static EmailFragment newInstance(OnFragmentInteractionListener listener) {

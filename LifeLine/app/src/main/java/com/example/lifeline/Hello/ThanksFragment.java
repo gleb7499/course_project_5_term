@@ -1,4 +1,4 @@
-package com.example.lifeline.Hello;
+package com.example.lifeline.hello;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,9 @@ import com.example.lifeline.R;
 
 public class ThanksFragment extends Fragment {
 
-    public ThanksFragment() {}
+    public ThanksFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
