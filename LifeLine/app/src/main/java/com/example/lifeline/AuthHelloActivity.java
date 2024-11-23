@@ -53,9 +53,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        nextButton.setOnClickListener(v -> {
-            nextButtonClick();
-        });
+        nextButton.setOnClickListener(v -> nextButtonClick());
 
         if (savedInstanceState == null) {
             nextFragment(fragments.get(counterFragments++));
@@ -64,7 +62,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
 
     private void nextButtonClick() {
         if (counterFragments == fragments.size()) {
-            if (password.isEmpty()) {
+            if (password == null || password.isEmpty()) {
                 Toast.makeText(AuthHelloActivity.this, "Введите пароль", Toast.LENGTH_SHORT).show();
             }
             else if (isRegister) {
@@ -72,7 +70,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             } else {
                 loginUser();
             }
-        } else if (counterFragments == fragments.size() - 1 && (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
+        } else if (counterFragments == fragments.size() - 1 && (email == null || email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
             Toast.makeText(AuthHelloActivity.this, "Неверный email", Toast.LENGTH_SHORT).show();
         } else {
             nextFragment(fragments.get(counterFragments++));
@@ -86,9 +84,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             fragments.add(new YouIsHeroFragment());
             fragments.add(new ThanksFragment());
         }
-        fragments.add(EmailFragment.newInstance((data) -> {
-            email = data;
-        }));
+        fragments.add(EmailFragment.newInstance(data -> email = data));
         fragments.add(SignFragment.newInstance((data, isRegister) -> {
             password = data;
             AuthHelloActivity.this.isRegister = isRegister;
@@ -116,7 +112,6 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 // Вход успешен
-                FirebaseUser user = mAuth.getCurrentUser();
                 Toast.makeText(AuthHelloActivity.this, "Вход успешен", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(AuthHelloActivity.this, DashboardActivity.class);
                 startActivity(intent);
@@ -150,7 +145,6 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 // Регистрация успешна
-                FirebaseUser user = mAuth.getCurrentUser();
                 Toast.makeText(AuthHelloActivity.this, "Регистрация успешна", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(AuthHelloActivity.this, DashboardActivity.class);
                 startActivity(intent);

@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.lifeline.authentication.AuthActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class DashboardActivity extends AppCompatActivity {
         Button buttonOutOfSystem = findViewById(R.id.buttonOutOfSystem);
         buttonOutOfSystem.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, AuthActivity.class);
             startActivity(intent);
             finish();
         });
