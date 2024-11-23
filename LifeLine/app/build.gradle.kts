@@ -39,6 +39,13 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    lint {
+        xmlReport = true
+        htmlReport = true
+        checkAllWarnings = true
+        abortOnError = true
+        checkDependencies = true
+    }
 }
 
 dependencies {
