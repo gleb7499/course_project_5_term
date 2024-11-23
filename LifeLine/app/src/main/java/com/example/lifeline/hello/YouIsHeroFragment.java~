@@ -12,7 +12,6 @@ import com.example.lifeline.R;
 public class YouIsHeroFragment extends Fragment {
 
     public YouIsHeroFragment() {
-        // Required empty public constructor
     }
 
     @Override

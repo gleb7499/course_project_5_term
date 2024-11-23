@@ -1,4 +1,4 @@
-package com.example.lifeline.Authantication;
+package com.example.lifeline.authentication;
 
 import android.os.Bundle;
 

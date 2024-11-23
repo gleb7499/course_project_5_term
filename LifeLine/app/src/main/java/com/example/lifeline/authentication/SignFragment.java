@@ -1,4 +1,4 @@
-package com.example.lifeline.Authantication;
+package com.example.lifeline.authentication;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +19,7 @@ public class SignFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public SignFragment() {
+        // Required empty public constructor
     }
 
     public static SignFragment newInstance(SignFragment.OnFragmentInteractionListener listener) {
@@ -35,7 +36,7 @@ public class SignFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(data, isRegister);
         } else {
-            Log.d("EmailFragment", "mListener is null");
+            Log.d("SignFragment", "mListener is null");
         }
     }
 
@@ -47,20 +48,17 @@ public class SignFragment extends Fragment {
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
 
         Button buttonSwitchEntryMethods = view.findViewById(R.id.buttonSwitchEntryMethods);
-        buttonSwitchEntryMethods.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (buttonSwitchEntryMethods.getText().equals("Регистрация")) {
-                    buttonSwitchEntryMethods.setText("Вход");
-                    editTextPasswordAgain.setText("");
-                    editTextPassword.setText("");
-                    editTextPasswordAgain.setVisibility(View.GONE);
-                } else {
-                    buttonSwitchEntryMethods.setText("Регистрация");
-                    editTextPasswordAgain.setText("");
-                    editTextPassword.setText("");
-                    editTextPasswordAgain.setVisibility(View.VISIBLE);
-                }
+        buttonSwitchEntryMethods.setOnClickListener(v -> {
+            if (buttonSwitchEntryMethods.getText().equals("Регистрация")) {
+                buttonSwitchEntryMethods.setText("Вход");
+                editTextPasswordAgain.setText("");
+                editTextPassword.setText("");
+                editTextPasswordAgain.setVisibility(View.GONE);
+            } else {
+                buttonSwitchEntryMethods.setText("Регистрация");
+                editTextPasswordAgain.setText("");
+                editTextPassword.setText("");
+                editTextPasswordAgain.setVisibility(View.VISIBLE);
             }
         });
 
@@ -73,7 +71,7 @@ public class SignFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Действия при изменении текста
-                if (!s.toString().isEmpty() && s.toString().equals(editTextPassword.getText().toString())) {
+                if (s.toString().equals(editTextPassword.getText().toString())) {
                     sendDataToActivity(s.toString(), true);
                 } else {
                     editTextPasswordAgain.setError("Пароли не совпадают");
@@ -89,19 +87,18 @@ public class SignFragment extends Fragment {
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                // Действия до изменения текста
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()) {
-                    sendDataToActivity(s.toString(), false);
-                }
+                // Действия при изменении текста
+                sendDataToActivity(s.toString(), false);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                // Действия после изменения текста
             }
         });
 

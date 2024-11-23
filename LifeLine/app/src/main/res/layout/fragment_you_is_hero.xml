@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_layout"
-    tools:context=".Hello.YouIsHeroFragment">
+    tools:context=".hello.YouIsHeroFragment">
 
     <TextView
         android:id="@+id/textViewWhatItIs"

@@ -1,4 +1,4 @@
-package com.example.lifeline.Hello;
+package com.example.lifeline.hello;
 
 import android.os.Bundle;
 
