@@ -36,7 +36,7 @@ public class SignFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(data, isRegister);
         } else {
-            Log.d("EmailFragment", "mListener is null");
+            Log.d("SignFragment", "mListener is null");
         }
     }
 

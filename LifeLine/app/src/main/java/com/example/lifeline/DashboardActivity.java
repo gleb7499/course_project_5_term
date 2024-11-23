@@ -1,8 +1,10 @@
 package com.example.lifeline;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class SplashActivity extends AppCompatActivity {
+import com.example.lifeline.authentication.AuthActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
+public class DashboardActivity extends AppCompatActivity {
 
     private void setMargin(View view) {
         ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
@@ -31,12 +36,12 @@ public class SplashActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
 
-//        Button buttonOutOfSystem = findViewById(R.id.buttonOutOfSystem);
-//        buttonOutOfSystem.setOnClickListener(v -> {
-//            FirebaseAuth.getInstance().signOut();
-//            Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
-//            startActivity(intent);
-//            finish();
-//        });
+        Button buttonOutOfSystem = findViewById(R.id.buttonOutOfSystem);
+        buttonOutOfSystem.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 }

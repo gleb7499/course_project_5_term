@@ -24,12 +24,13 @@ public class MainActivity extends AppCompatActivity {
             newActivity(HelloActivity.class);
         } else {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user == null) {
+            if (user == null || user.isAnonymous()) {
                 // Запустить активити входа в систему
                 newActivity(AuthActivity.class);
+            } else {
+                // Запустить основное активити только после успешной регистрации пользователя
+                newActivity(DashboardActivity.class);
             }
-            // Запустить основное активити
-            newActivity(SplashActivity.class);
         }
     }
 

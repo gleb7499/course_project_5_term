@@ -119,7 +119,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                 // Вход успешен
                 FirebaseUser user = mAuth.getCurrentUser();
                 Toast.makeText(AuthHelloActivity.this, "Вход успешен", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AuthHelloActivity.this, SplashActivity.class);
+                Intent intent = new Intent(AuthHelloActivity.this, DashboardActivity.class);
                 startActivity(intent);
                 finish();
             } else {
@@ -138,6 +138,8 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                     // Другая ошибка
                     Toast.makeText(AuthHelloActivity.this, "Произошла ошибка", Toast.LENGTH_LONG).show();
                 }
+                progressBar.setVisibility(View.GONE);
+                nextButton.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -149,7 +151,9 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                 // Регистрация успешна
                 FirebaseUser user = mAuth.getCurrentUser();
                 Toast.makeText(AuthHelloActivity.this, "Регистрация успешна", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AuthHelloActivity.this, SplashActivity.class);
+                Intent intent = new Intent(AuthHelloActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                finish();
             } else {
                 // Ошибка регистрации
                 Exception exception = task.getException();
@@ -166,6 +170,8 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                     // Другая ошибка
                     Toast.makeText(AuthHelloActivity.this, "Произошла ошибка", Toast.LENGTH_LONG).show();
                 }
+                progressBar.setVisibility(View.GONE);
+                nextButton.setVisibility(View.VISIBLE);
             }
         });
     }

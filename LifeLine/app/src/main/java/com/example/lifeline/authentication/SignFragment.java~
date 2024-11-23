@@ -87,11 +87,12 @@ public class SignFragment extends Fragment {
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                // Действия до изменения текста
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Действия при изменении текста
                 if (!s.toString().isEmpty()) {
                     sendDataToActivity(s.toString(), false);
                 }
@@ -99,7 +100,7 @@ public class SignFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                // Действия после изменения текста
             }
         });
 
