@@ -71,7 +71,7 @@ public class SignFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Действия при изменении текста
-                if (!s.toString().isEmpty() && s.toString().equals(editTextPassword.getText().toString())) {
+                if (s.toString().equals(editTextPassword.getText().toString())) {
                     sendDataToActivity(s.toString(), true);
                 } else {
                     editTextPasswordAgain.setError("Пароли не совпадают");
@@ -93,9 +93,7 @@ public class SignFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Действия при изменении текста
-                if (!s.toString().isEmpty()) {
-                    sendDataToActivity(s.toString(), false);
-                }
+                sendDataToActivity(s.toString(), false);
             }
 
             @Override

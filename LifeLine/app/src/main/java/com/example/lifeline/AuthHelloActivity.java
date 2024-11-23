@@ -54,30 +54,27 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         mAuth = FirebaseAuth.getInstance();
 
         nextButton.setOnClickListener(v -> {
-            if (counterFragments == fragments.size()) {
-                if (password != null) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    nextButton.setVisibility(View.GONE);
-                    if (isRegister) {
-                        registerUser();
-                    } else {
-                        loginUser();
-                    }
-                }
-            } else {
-                if (counterFragments == fragments.size() - 1) {
-                    if (email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                        nextFragment(fragments.get(counterFragments++));
-                    } else {
-                        Toast.makeText(AuthHelloActivity.this, "Неверный email", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    nextFragment(fragments.get(counterFragments++));
-                }
-            }
+            nextButtonClick();
         });
 
         if (savedInstanceState == null) {
+            nextFragment(fragments.get(counterFragments++));
+        }
+    }
+
+    private void nextButtonClick() {
+        if (counterFragments == fragments.size()) {
+            if (password.isEmpty()) {
+                Toast.makeText(AuthHelloActivity.this, "Введите пароль", Toast.LENGTH_SHORT).show();
+            }
+            else if (isRegister) {
+                registerUser();
+            } else {
+                loginUser();
+            }
+        } else if (counterFragments == fragments.size() - 1 && (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
+            Toast.makeText(AuthHelloActivity.this, "Неверный email", Toast.LENGTH_SHORT).show();
+        } else {
             nextFragment(fragments.get(counterFragments++));
         }
     }
@@ -113,6 +110,8 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     }
 
     private void loginUser() {
+        progressBar.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.GONE);
         // Логика для входа пользователя
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
@@ -145,6 +144,8 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     }
 
     private void registerUser() {
+        progressBar.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.GONE);
         // Логика для регистрации пользователя
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {

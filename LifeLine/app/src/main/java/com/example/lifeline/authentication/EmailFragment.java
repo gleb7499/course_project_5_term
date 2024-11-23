@@ -53,9 +53,7 @@ public class EmailFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Действия при изменении текста
-                if (!s.toString().isEmpty()) {
-                    sendDataToActivity(s.toString());
-                }
+                sendDataToActivity(s.toString());
             }
 
             @Override

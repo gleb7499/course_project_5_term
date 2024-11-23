@@ -2,33 +2,14 @@ package com.example.lifeline;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.lifeline.authentication.AuthActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class DashboardActivity extends AppCompatActivity {
-
-    private void setMargin(View view) {
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            layoutParams.leftMargin = insets.left;
-            layoutParams.topMargin = insets.top;
-            layoutParams.rightMargin = insets.right;
-            layoutParams.bottomMargin = insets.bottom;
-            v.setLayoutParams(layoutParams);
-            return WindowInsetsCompat.CONSUMED;
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
