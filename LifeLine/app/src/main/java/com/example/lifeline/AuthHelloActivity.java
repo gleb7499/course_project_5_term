@@ -1,5 +1,6 @@
 package com.example.lifeline;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -25,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -64,8 +64,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         if (counterFragments == fragments.size()) {
             if (password == null || password.isEmpty()) {
                 Toast.makeText(AuthHelloActivity.this, "Введите пароль", Toast.LENGTH_SHORT).show();
-            }
-            else if (isRegister) {
+            } else if (isRegister) {
                 registerUser();
             } else {
                 loginUser();
@@ -113,8 +112,6 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             if (task.isSuccessful()) {
                 // Вход успешен
                 Toast.makeText(AuthHelloActivity.this, "Вход успешен", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AuthHelloActivity.this, DashboardActivity.class);
-                startActivity(intent);
                 finish();
             } else {
                 // Ошибка входа
@@ -146,8 +143,6 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             if (task.isSuccessful()) {
                 // Регистрация успешна
                 Toast.makeText(AuthHelloActivity.this, "Регистрация успешна", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AuthHelloActivity.this, DashboardActivity.class);
-                startActivity(intent);
                 finish();
             } else {
                 // Ошибка регистрации

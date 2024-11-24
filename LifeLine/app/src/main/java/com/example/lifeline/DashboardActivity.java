@@ -23,7 +23,6 @@ public class DashboardActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(DashboardActivity.this, AuthActivity.class);
             startActivity(intent);
-            finish();
         });
     }
 }
