@@ -21,16 +21,10 @@ import org.jetbrains.annotations.Contract;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityResultLauncher<Intent> launcherForHelloActivity;
-    private ActivityResultLauncher<Intent> launcherForAuthActivity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
-
-        launcherForHelloActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {});
-        launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {});
 
         if (isFirstRun()) {
             // Запустить приветственного активити

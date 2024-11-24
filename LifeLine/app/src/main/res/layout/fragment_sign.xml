@@ -9,13 +9,9 @@
 
     <EditText
         android:id="@+id/editTextPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="0.8"
-        android:ems="12"
+        style="@style/EditTextTheme"
         android:hint="Пароль"
         android:inputType="textPassword"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,13 +20,9 @@
 
     <EditText
         android:id="@+id/editTextPasswordAgain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="0.8"
-        android:ems="12"
+        style="@style/EditTextTheme"
         android:hint="Повторите пароль"
         android:inputType="textPassword"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,17 +31,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSwitchEntryMethods"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/colorPrimary"
+        style="@style/ButtonTheme"
         android:text="Регистрация"
-        android:textSize="16sp"
-        app:cornerRadius="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75"
-        style="@style/Base.Theme.LifeLine"/>
+        app:layout_constraintVertical_bias="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

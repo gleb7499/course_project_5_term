@@ -1,7 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.LifeLine" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.LifeLine" parent="Base.Theme.LifeLine" />
+    <style name="Theme.LifeLine" parent="Base.Theme.LifeLine"/>
+
+    <style name="ButtonTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">16sp</item>
+        <item name="cornerRadius">17dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="EditTextTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:alpha">0.7</item>
+        <item name="android:ems">12</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

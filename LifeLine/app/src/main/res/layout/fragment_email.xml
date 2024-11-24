@@ -9,13 +9,9 @@
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="0.9"
-        android:ems="12"
+        style="@style/EditTextTheme"
         android:hint="Ваш email"
         android:inputType="textEmailAddress"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
