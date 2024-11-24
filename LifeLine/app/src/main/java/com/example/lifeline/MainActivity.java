@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Запустить активити входа в систему
         ActivityResultLauncher<Intent> launcherForHelloActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user == null || user.isAnonymous()) {
                     // Запустить активити входа в систему
                     launcherForAuthActivity.launch(new Intent(this, AuthActivity.class));
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (isFirstRun()) {
             // Запустить приветственного активити
             launcherForHelloActivity.launch(new Intent(this, HelloActivity.class));
