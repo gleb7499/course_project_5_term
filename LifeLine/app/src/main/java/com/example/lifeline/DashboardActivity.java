@@ -16,14 +16,13 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_dashboard);
 
         Button buttonOutOfSystem = findViewById(R.id.buttonOutOfSystem);
         buttonOutOfSystem.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(DashboardActivity.this, AuthActivity.class);
             startActivity(intent);
-            finish();
         });
     }
 }
