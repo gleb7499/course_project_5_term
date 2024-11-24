@@ -112,6 +112,9 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             if (task.isSuccessful()) {
                 // Вход успешен
                 Toast.makeText(AuthHelloActivity.this, "Вход успешен", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.putExtra("user", mAuth.getCurrentUser());
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             } else {
                 // Ошибка входа
@@ -143,6 +146,9 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             if (task.isSuccessful()) {
                 // Регистрация успешна
                 Toast.makeText(AuthHelloActivity.this, "Регистрация успешна", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.putExtra("user", mAuth.getCurrentUser());
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             } else {
                 // Ошибка регистрации

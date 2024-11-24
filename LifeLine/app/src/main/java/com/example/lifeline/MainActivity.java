@@ -1,14 +1,12 @@
 package com.example.lifeline;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lifeline.authentication.AuthActivity;
@@ -17,34 +15,45 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.jetbrains.annotations.Contract;
-
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityResultLauncher<Intent> launcherForAuthActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Запустить активити входа в систему
+        ActivityResultLauncher<Intent> launcherForHelloActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                if (user == null || user.isAnonymous()) {
+                    // Запустить активити входа в систему
+                    launcherForAuthActivity.launch(new Intent(this, AuthActivity.class));
+                } else {
+                    startActivity(new Intent(this, DashboardActivity.class));
+                    finish();
+                }
+            }
+        });
+        launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                startActivity(new Intent(this, DashboardActivity.class));
+                finish();
+            }
+        });
 
         if (isFirstRun()) {
             // Запустить приветственного активити
-            startActivity(newActivity(HelloActivity.class));
+            launcherForHelloActivity.launch(new Intent(this, HelloActivity.class));
+        } else if (user == null || user.isAnonymous()) {
+            // Запустить активити входа в систему
+            launcherForAuthActivity.launch(new Intent(this, AuthActivity.class));
         } else {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user == null || user.isAnonymous()) {
-                // Запустить активити входа в систему
-                startActivity(newActivity(AuthActivity.class));
-            }
+            startActivity(new Intent(this, DashboardActivity.class));
+            finish();
         }
-        // Запустить основное активити только после успешной регистрации пользователя
-        startActivity(newActivity(DashboardActivity.class));
-        finish();
-    }
-
-    @NonNull
-    @Contract("_ -> new")
-    private Intent newActivity(Class<?> cls) {
-        return new Intent(this, cls);
     }
 
     private boolean isFirstRun() {
