@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.play.services.auth)
     implementation(libs.firebase.auth)
+    implementation(libs.material)
 
     testImplementation(libs.junit)
 

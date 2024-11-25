@@ -2,7 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimaryDark">#8486ACBD</color>
-    <color name="colorPrimary">#79ABBD</color>
-    <color name="colorAccent">#3C7281</color>
+    <color name="background_layout">#84D0DEE7</color>
+    <color name="background_1st_accent">#846298B4</color>
+    <color name="background_2nd_accent">#845A93B6</color>
+    <color name="background_3rd_accent">#84287EBA</color>
+    <color name="background_4th_accent">#841077BD</color>
 </resources>

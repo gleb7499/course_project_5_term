@@ -1,4 +1,4 @@
-package com.example.lifeline;
+package com.example.lifeline.interfaces;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.lifeline.R;
 import com.example.lifeline.authentication.EmailFragment;
 import com.example.lifeline.authentication.SignFragment;
 import com.example.lifeline.hello.HelloFragment;

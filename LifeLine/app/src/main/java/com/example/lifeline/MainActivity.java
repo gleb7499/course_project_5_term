@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lifeline.authentication.AuthActivity;
+import com.example.lifeline.dashboard.DashboardActivity;
 import com.example.lifeline.hello.HelloActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;

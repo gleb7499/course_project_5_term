@@ -1,15 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.LifeLine" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.LifeLine" parent="Base.Theme.LifeLine"/>
+    <style name="Theme.LifeLine" parent="Base.Theme.LifeLine">
+    </style>
 
-    <style name="MainLayoutTheme" parent="Theme.AppCompat.Light">
-        <item name="android:background">@color/colorPrimaryDark</item>
+    <style name="LayoutTheme" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/background_layout</item>
     </style>
 
     <style name="HelloText" parent="Theme.AppCompat.Light">
@@ -26,6 +24,7 @@
         <item name="cornerRadius">17dp</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="backgroundTint">@color/background_3rd_accent</item>
     </style>
 
     <style name="EditTextTheme" parent="Theme.AppCompat.Light">
@@ -35,6 +34,11 @@
         <item name="android:alpha">0.7</item>
         <item name="android:ems">12</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="MenuActive" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/background_2nd_accent</item>
+        <item name="android:height">40dp</item>
     </style>
 
 </resources>

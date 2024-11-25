@@ -2,7 +2,7 @@ package com.example.lifeline.authentication;
 
 import android.os.Bundle;
 
-import com.example.lifeline.AuthHelloActivity;
+import com.example.lifeline.interfaces.AuthHelloActivity;
 
 public class AuthActivity extends AuthHelloActivity {
 
