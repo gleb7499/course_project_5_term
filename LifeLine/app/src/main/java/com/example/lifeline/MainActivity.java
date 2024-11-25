@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActivityResultLauncher<Intent> launcherForHelloActivity;
     private ActivityResultLauncher<Intent> launcherForAuthActivity;
 
     @Override
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
 
         // Запустить активити входа в систему
-        ActivityResultLauncher<Intent> launcherForHelloActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        launcherForHelloActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user == null || user.isAnonymous()) {

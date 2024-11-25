@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +18,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 
 public class DashboardActivity extends AppCompatActivity {
-    private BottomNavigationView bottomNavigationView;
-    private FrameLayout frameLayout;
-    private ArrayList<Fragment> fragments;
+
+    private void setMargins(View view) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.topMargin = insets.top;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
+    }
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -30,8 +36,13 @@ public class DashboardActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        frameLayout = findViewById(R.id.Frame);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        setMargins(findViewById(R.id.Frame));
+
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(new PersonFragment());
+        fragments.add(new PlusFragment());
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_person) {
@@ -43,10 +54,6 @@ public class DashboardActivity extends AppCompatActivity {
             }
             return false;
         });
-
-        fragments = new ArrayList<>();
-        fragments.add(new PersonFragment());
-        fragments.add(new PlusFragment());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.Frame, fragments.get(0)).commit();
 

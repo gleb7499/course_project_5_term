@@ -59,8 +59,10 @@
             android:background="@color/background_1st_accent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:listitem="@layout/recycler_view_param_item" />
 
     </LinearLayout>
 
