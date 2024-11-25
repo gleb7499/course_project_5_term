@@ -33,14 +33,6 @@ public class DashboardActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         frameLayout = findViewById(R.id.Frame);
 
-        ViewCompat.setOnApplyWindowInsetsListener(frameLayout, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            layoutParams.topMargin = insets.top;
-            v.setLayoutParams(layoutParams);
-            return WindowInsetsCompat.CONSUMED;
-        });
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_person) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.Frame, fragments.get(0)).commit();

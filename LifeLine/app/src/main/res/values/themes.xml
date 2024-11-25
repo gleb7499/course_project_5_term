@@ -10,13 +10,23 @@
         <item name="android:background">@color/background_layout</item>
     </style>
 
-    <style name="HelloText" parent="Theme.AppCompat.Light">
+    <style name="Text" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">22sp</item>
+        <item name="android:alpha">0.7</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="HelloText" parent="Text">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="layout_constraintWidth_percent">0.9</item>
         <item name="android:textSize">22sp</item>
         <item name="android:alpha">0.7</item>
-        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="NameText" parent="Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="ButtonTheme" parent="Theme.AppCompat.Light">
