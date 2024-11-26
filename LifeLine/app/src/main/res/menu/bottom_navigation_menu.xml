@@ -4,10 +4,10 @@
     <item
         android:id="@+id/navigation_plus"
         android:icon="@drawable/plus"
-        tools:ignore="MenuTitle" />
+        android:title="Добавить" />
 
     <item
         android:id="@+id/navigation_person"
         android:icon="@drawable/person"
-        tools:ignore="MenuTitle" />
+        android:title="Аккаунт" />
 </menu>
