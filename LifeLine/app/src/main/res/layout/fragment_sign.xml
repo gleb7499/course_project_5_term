@@ -54,7 +54,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSwitchEntryMethods"
-        style="@style/ButtonTheme"
+        style="@style/ButtonThemeHello"
         android:text="Регистрация"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

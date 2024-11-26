@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -23,15 +21,18 @@ import com.example.lifeline.authentication.SignFragment;
 import com.example.lifeline.hello.HelloFragment;
 import com.example.lifeline.hello.ThanksFragment;
 import com.example.lifeline.hello.YouIsHeroFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AuthHelloActivity extends FragmentActivity {
-    private ImageButton nextButton;
+    private FloatingActionButton nextButton;
     private ProgressBar progressBar;
     private int counterFragments = 0;
     private FirebaseAuth mAuth;
@@ -39,6 +40,29 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     private String password;
     private boolean isRegister;
     private ArrayList<Fragment> fragments;
+    boolean isFirstForNextButton = true;
+
+//    private void setMargin(View view) {
+//        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
+//            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+//
+//            // Сохраняем текущие отступы из XML
+//            currentTop = mlp.topMargin;
+//            currentLeft = mlp.leftMargin;
+//            currentBottom = mlp.bottomMargin;
+//            currentRight = mlp.rightMargin;
+//
+//            // Добавляем системные отступы к текущим отступам
+//            mlp.topMargin = currentTop + insets.top;
+//            mlp.leftMargin = currentLeft + insets.left;
+//            mlp.bottomMargin = currentBottom + insets.bottom;
+//            mlp.rightMargin = currentRight + insets.right;
+//
+//            v.setLayoutParams(mlp);
+//            return WindowInsetsCompat.CONSUMED;
+//        });
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +70,24 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_hello);
 
-        nextButton = findViewById(R.id.imageButtonNext);
-        setMargin(nextButton);
+        nextButton = findViewById(R.id.buttonNext);
+        AtomicInteger currentBottomForNextButton = new AtomicInteger();
+        ViewCompat.setOnApplyWindowInsetsListener(nextButton, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            // Сохраняем текущие отступы из XML
+            if (isFirstForNextButton) {
+                currentBottomForNextButton.set(mlp.bottomMargin);
+                isFirstForNextButton = false;
+            }
+            // Добавляем системные отступы к текущим отступам
+            mlp.bottomMargin = currentBottomForNextButton.get() + insets.bottom;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         progressBar = findViewById(R.id.progressBar);
-        setMargin(progressBar);
+//        setMargin(progressBar);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -64,14 +101,14 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     private void nextButtonClick() {
         if (counterFragments == fragments.size()) {
             if (password == null || password.isEmpty()) {
-                Toast.makeText(AuthHelloActivity.this, "Введите пароль", Toast.LENGTH_SHORT).show();
+                Snackbar.make(nextButton, "Введите пароль", Snackbar.LENGTH_SHORT).show();
             } else if (isRegister) {
                 registerUser();
             } else {
                 loginUser();
             }
         } else if (counterFragments == fragments.size() - 1 && (email == null || email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
-            Toast.makeText(AuthHelloActivity.this, "Неверный email", Toast.LENGTH_SHORT).show();
+            Snackbar.make(nextButton, "Неверный email", Snackbar.LENGTH_SHORT).show();
         } else {
             nextFragment(fragments.get(counterFragments++));
         }
@@ -95,16 +132,6 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).replace(R.id.Frame, fragment).commit();
     }
 
-    private void setMargin(View view) {
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            layoutParams.bottomMargin = insets.bottom + 35;
-            v.setLayoutParams(layoutParams);
-            return WindowInsetsCompat.CONSUMED;
-        });
-    }
-
     private void loginUser() {
         progressBar.setVisibility(View.VISIBLE);
         nextButton.setVisibility(View.GONE);
@@ -112,9 +139,8 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 // Вход успешен
-                Toast.makeText(AuthHelloActivity.this, "Вход успешен", Toast.LENGTH_LONG).show();
+                Snackbar.make(nextButton, "Вход успешен", Snackbar.LENGTH_LONG).show();
                 Intent intent = new Intent();
-                intent.putExtra("user", mAuth.getCurrentUser());
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             } else {
@@ -124,14 +150,14 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                     String errorCode = ((FirebaseAuthInvalidCredentialsException) exception).getErrorCode();
                     if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
                         // Пользователь с таким email не найден
-                        Toast.makeText(AuthHelloActivity.this, "Пользователь с таким email не найден", Toast.LENGTH_LONG).show();
+                        Snackbar.make(nextButton, "Пользователь с таким email не найден", Snackbar.LENGTH_LONG).show();
                     } else {
                         // Пароль неверен
-                        Toast.makeText(AuthHelloActivity.this, "Пароль неверен", Toast.LENGTH_LONG).show();
+                        Snackbar.make(nextButton, "Пароль неверен", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     // Другая ошибка
-                    Toast.makeText(AuthHelloActivity.this, "Произошла ошибка", Toast.LENGTH_LONG).show();
+                    Snackbar.make(nextButton, "Произошла ошибка", Snackbar.LENGTH_LONG).show();
                 }
                 progressBar.setVisibility(View.GONE);
                 nextButton.setVisibility(View.VISIBLE);
@@ -146,9 +172,8 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 // Регистрация успешна
-                Toast.makeText(AuthHelloActivity.this, "Регистрация успешна", Toast.LENGTH_LONG).show();
+                Snackbar.make(nextButton, "Регистрация успешна", Snackbar.LENGTH_LONG).show();
                 Intent intent = new Intent();
-                intent.putExtra("user", mAuth.getCurrentUser());
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             } else {
@@ -156,16 +181,16 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                 Exception exception = task.getException();
                 if (exception instanceof FirebaseAuthWeakPasswordException) {
                     // Пароль слишком слабый
-                    Toast.makeText(AuthHelloActivity.this, "Пароль слишком слабый", Toast.LENGTH_LONG).show();
+                    Snackbar.make(nextButton, "Пароль слишком слабый", Snackbar.LENGTH_LONG).show();
                 } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
                     // Некорректные учетные данные
-                    Toast.makeText(AuthHelloActivity.this, "Некорректные учетные данные", Toast.LENGTH_LONG).show();
+                    Snackbar.make(nextButton, "Некорректные учетные данные", Snackbar.LENGTH_LONG).show();
                 } else if (exception instanceof FirebaseAuthUserCollisionException) {
                     // Пользователь с таким email уже существует
-                    Toast.makeText(AuthHelloActivity.this, "Пользователь с таким email уже существует", Toast.LENGTH_LONG).show();
+                    Snackbar.make(nextButton, "Пользователь с таким email уже существует", Snackbar.LENGTH_LONG).show();
                 } else {
                     // Другая ошибка
-                    Toast.makeText(AuthHelloActivity.this, "Произошла ошибка", Toast.LENGTH_LONG).show();
+                    Snackbar.make(nextButton, "Произошла ошибка", Snackbar.LENGTH_LONG).show();
                 }
                 progressBar.setVisibility(View.GONE);
                 nextButton.setVisibility(View.VISIBLE);

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.LifeLine" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.LifeLine" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
     </style>
 
     <style name="Theme.LifeLine" parent="Base.Theme.LifeLine">
@@ -12,7 +12,6 @@
 
     <style name="Text" parent="Theme.AppCompat.Light">
         <item name="android:textSize">22sp</item>
-        <item name="android:alpha">0.7</item>
         <item name="android:textAlignment">center</item>
     </style>
 
@@ -20,8 +19,6 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="layout_constraintWidth_percent">0.9</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:alpha">0.7</item>
     </style>
 
     <style name="NameText" parent="Text">
@@ -29,7 +26,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="ButtonTheme" parent="Widget.Material3.Button.OutlinedButton">
+    <style name="ButtonThemeHello" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textSize">18sp</item>
         <item name="cornerRadius">17dp</item>
         <item name="android:layout_height">50dp</item>
@@ -38,11 +35,6 @@
 
     <style name="EditTextTheme" parent="Theme.AppCompat.Light">
         <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="MenuActive" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/background_2nd_accent</item>
-        <item name="android:height">40dp</item>
     </style>
 
 </resources>
