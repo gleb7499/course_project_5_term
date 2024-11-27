@@ -18,8 +18,10 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.lifeline.R;
 import com.example.lifeline.authentication.EmailFragment;
 import com.example.lifeline.authentication.SignFragment;
+import com.example.lifeline.hello.BloodTypeFragment;
 import com.example.lifeline.hello.HelloFragment;
 import com.example.lifeline.hello.ThanksFragment;
+import com.example.lifeline.hello.UserFragment;
 import com.example.lifeline.hello.YouIsHeroFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,12 +36,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class AuthHelloActivity extends FragmentActivity {
     private FloatingActionButton nextButton;
     private ProgressBar progressBar;
-    private int counterFragments = 0;
     private FirebaseAuth mAuth;
     private String email;
     private String password;
-    private boolean isRegister;
+    private String user;
+    private String bloodType;
+    private boolean isRegister = false;
     private ArrayList<Fragment> fragments;
+    private int counterFragments = 0;
+    private ArrayList<Fragment> fragmentsToAcquaint;
+    private int counterForAcquaint = 0;
+    private boolean isAcquainted = false;
     boolean isFirstForNextButton = true;
     boolean isFirstForProgressBar = true;
 
@@ -90,19 +97,31 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         }
     }
 
+    private void setAcquainted() {
+        fragmentsToAcquaint.add(UserFragment.newInstance(data -> user = data));
+        fragmentsToAcquaint.add(BloodTypeFragment.newInstance(data -> bloodType = data));
+    }
+
     private void nextButtonClick() {
-        if (counterFragments == fragments.size()) {
-            if (password == null || password.isEmpty()) {
-                Snackbar.make(nextButton, "Введите пароль", Snackbar.LENGTH_SHORT).show();
-            } else if (isRegister) {
-                registerUser();
+        if (!isAcquainted) {
+            if (counterFragments == fragments.size()) {
+                if (password == null || password.isEmpty()) {
+                    Snackbar.make(nextButton, "Введите пароль", Snackbar.LENGTH_SHORT).show();
+                } else if (isRegister) {
+                    registerUser();
+                    isAcquainted = true;
+                    fragmentsToAcquaint = new ArrayList<>();
+                    setAcquainted();
+                } else {
+                    loginUser();
+                }
+            } else if (counterFragments == fragments.size() - 1 && (email == null || email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
+                Snackbar.make(nextButton, "Неверный email", Snackbar.LENGTH_SHORT).show();
             } else {
-                loginUser();
+                nextFragment(fragments.get(counterFragments++));
             }
-        } else if (counterFragments == fragments.size() - 1 && (email == null || email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
-            Snackbar.make(nextButton, "Неверный email", Snackbar.LENGTH_SHORT).show();
         } else {
-            nextFragment(fragments.get(counterFragments++));
+            nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
         }
     }
 
@@ -116,7 +135,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         fragments.add(EmailFragment.newInstance(data -> email = data));
         fragments.add(SignFragment.newInstance((data, isRegister) -> {
             password = data;
-            AuthHelloActivity.this.isRegister = isRegister;
+            this.isRegister = isRegister;
         }));
     }
 
@@ -165,9 +184,9 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             if (task.isSuccessful()) {
                 // Регистрация успешна
                 Snackbar.make(nextButton, "Регистрация успешна", Snackbar.LENGTH_LONG).show();
-                Intent intent = new Intent();
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                progressBar.setVisibility(View.GONE);
+                nextButton.setVisibility(View.VISIBLE);
+                nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
             } else {
                 // Ошибка регистрации
                 Exception exception = task.getException();

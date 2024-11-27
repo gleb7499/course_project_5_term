@@ -1,23 +1,24 @@
-package com.example.lifeline.dashboard;
+package com.example.lifeline.hello;
 
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
-
 import com.example.lifeline.R;
 
-public class PlusFragment extends Fragment {
+public class PhotoFragment extends Fragment {
 
-    public PlusFragment() {
+    public PhotoFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_plus, container, false);
+        View view = inflater.inflate(R.layout.fragment_photo, container, false);
 
 
         return view;

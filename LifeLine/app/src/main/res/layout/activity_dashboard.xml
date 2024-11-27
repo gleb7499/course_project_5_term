@@ -2,7 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    style="@style/LayoutTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".dashboard.DashboardActivity">
@@ -11,7 +10,7 @@
         android:id="@+id/layoutPerson"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,9 +48,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
+                android:text="TextView"
                 app:layout_constraintStart_toEndOf="@id/cardView"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="TextView" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/iconButtonLogOut"
@@ -67,7 +66,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="15dp"/>
+            android:layout_marginVertical="15dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -79,18 +78,18 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floating_action_button"
-        android:textSize="17sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="25dp"
         android:layout_gravity="bottom|end"
+        android:layout_margin="25dp"
         android:text="Донация"
+        android:textSize="18sp"
+        app:icon="@drawable/plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:icon="@drawable/plus" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,23 +22,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.lifeline.R;
 import com.example.lifeline.adapters.RecyclerViewParamAdapter;
 import com.example.lifeline.authentication.AuthActivity;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DashboardActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView textViewName;
-
     private List<String> list;
     private Button buttonAdd;
     private Button buttonLogOut;
     private ActivityResultLauncher<Intent> launcherForAuthActivity;
+
+    boolean isFirstForLayoutPerson = true;
+    boolean isFirstForButtonAdd = true;
 
     private void setMargins(View view) {
         ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
@@ -78,14 +79,39 @@ public class DashboardActivity extends AppCompatActivity {
         launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         });
 
-        setMargins(findViewById(R.id.layoutPerson));
+        AtomicInteger currentTopForLayoutPerson = new AtomicInteger();
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layoutPerson), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            // Сохраняем текущие отступы из XML
+            if (isFirstForLayoutPerson) {
+                currentTopForLayoutPerson.set(mlp.topMargin);
+                isFirstForLayoutPerson = false;
+            }
+            // Добавляем системные отступы к текущим отступам
+            mlp.topMargin = currentTopForLayoutPerson.get() + insets.top;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         buttonAdd = findViewById(R.id.floating_action_button);
-        setMargins(buttonAdd);
+        AtomicInteger currentBottomForButtonAdd = new AtomicInteger();
+        ViewCompat.setOnApplyWindowInsetsListener(buttonAdd, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            // Сохраняем текущие отступы из XML
+            if (isFirstForButtonAdd) {
+                currentBottomForButtonAdd.set(mlp.bottomMargin);
+                isFirstForButtonAdd = false;
+            }
+            // Добавляем системные отступы к текущим отступам
+            mlp.bottomMargin = currentBottomForButtonAdd.get() + insets.bottom;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
         buttonAdd.setOnClickListener(v -> {
             AddFragment addFragment = new AddFragment();
             addFragment.show(getSupportFragmentManager(), AddFragment.TAG);
-
         });
 
         buttonLogOut = findViewById(R.id.iconButtonLogOut);

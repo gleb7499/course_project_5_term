@@ -4,59 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authentication.SignFragment">
+    tools:context=".hello.BloodTypeFragment">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutBloodType"
+        style="?attr/textInputOutlinedExposedDropdownMenuStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Пароль"
-        app:endIconMode="password_toggle"
-        app:errorEnabled="true"
+        android:hint="Группа крови"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43"
-        app:layout_constraintWidth_percent="0.75">
+        app:layout_constraintWidth_percent="0.4">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPassword"
+        <AutoCompleteTextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:layout_height="match_parent"
+            android:inputType="none"
+            app:simpleItems="@array/blood_types" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutAgain"
+        android:id="@+id/textInputLayoutRhesusFactor"
+        style="?attr/textInputOutlinedExposedDropdownMenuStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Повторите пароль"
-        app:endIconMode="password_toggle"
-        app:errorEnabled="true"
+        android:hint="Резус"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57"
-        app:layout_constraintWidth_percent="0.75">
+        app:layout_constraintWidth_percent="0.25">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPasswordAgain"
+        <AutoCompleteTextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:layout_height="match_parent"
+            android:inputType="none"
+            app:simpleItems="@array/rhesus_factors" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonSwitchEntryMethods"
-        style="@style/ButtonThemeHello"
-        android:text="Регистрация"
+    <TextView
+        android:id="@+id/resulBloodType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.72" />
+        app:layout_constraintVertical_bias="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
