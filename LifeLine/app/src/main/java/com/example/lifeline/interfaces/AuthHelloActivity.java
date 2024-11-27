@@ -41,28 +41,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     private boolean isRegister;
     private ArrayList<Fragment> fragments;
     boolean isFirstForNextButton = true;
-
-//    private void setMargin(View view) {
-//        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
-//            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-//
-//            // Сохраняем текущие отступы из XML
-//            currentTop = mlp.topMargin;
-//            currentLeft = mlp.leftMargin;
-//            currentBottom = mlp.bottomMargin;
-//            currentRight = mlp.rightMargin;
-//
-//            // Добавляем системные отступы к текущим отступам
-//            mlp.topMargin = currentTop + insets.top;
-//            mlp.leftMargin = currentLeft + insets.left;
-//            mlp.bottomMargin = currentBottom + insets.bottom;
-//            mlp.rightMargin = currentRight + insets.right;
-//
-//            v.setLayoutParams(mlp);
-//            return WindowInsetsCompat.CONSUMED;
-//        });
-//    }
+    boolean isFirstForProgressBar = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +66,20 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         });
 
         progressBar = findViewById(R.id.progressBar);
-//        setMargin(progressBar);
+        AtomicInteger currentBottomForProgressBar = new AtomicInteger();
+        ViewCompat.setOnApplyWindowInsetsListener(progressBar, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            // Сохраняем текущие отступы из XML
+            if (isFirstForProgressBar) {
+                currentBottomForProgressBar.set(mlp.bottomMargin);
+                isFirstForProgressBar = false;
+            }
+            // Добавляем системные отступы к текущим отступам
+            mlp.bottomMargin = currentBottomForProgressBar.get() + insets.bottom;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         mAuth = FirebaseAuth.getInstance();
 

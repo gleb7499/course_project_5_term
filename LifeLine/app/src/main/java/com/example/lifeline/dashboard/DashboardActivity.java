@@ -1,7 +1,6 @@
 package com.example.lifeline.dashboard;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,18 +13,17 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifeline.R;
 import com.example.lifeline.adapters.RecyclerViewParamAdapter;
 import com.example.lifeline.authentication.AuthActivity;
-import com.example.lifeline.hello.HelloActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -77,12 +75,18 @@ public class DashboardActivity extends AppCompatActivity {
             getWindow().setNavigationBarContrastEnforced(false);
         }
 
-        launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {});
+        launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        });
 
         setMargins(findViewById(R.id.layoutPerson));
 
         buttonAdd = findViewById(R.id.floating_action_button);
         setMargins(buttonAdd);
+        buttonAdd.setOnClickListener(v -> {
+            AddFragment addFragment = new AddFragment();
+            addFragment.show(getSupportFragmentManager(), AddFragment.TAG);
+
+        });
 
         buttonLogOut = findViewById(R.id.iconButtonLogOut);
         buttonLogOut.setOnClickListener(v -> {
