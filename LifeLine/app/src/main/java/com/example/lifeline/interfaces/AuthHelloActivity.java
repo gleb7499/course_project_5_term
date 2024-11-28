@@ -3,6 +3,7 @@ package com.example.lifeline.interfaces;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,9 +110,6 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                     Snackbar.make(nextButton, "Введите пароль", Snackbar.LENGTH_SHORT).show();
                 } else if (isRegister) {
                     registerUser();
-                    isAcquainted = true;
-                    fragmentsToAcquaint = new ArrayList<>();
-                    setAcquainted();
                 } else {
                     loginUser();
                 }
@@ -121,7 +119,13 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                 nextFragment(fragments.get(counterFragments++));
             }
         } else {
-            nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
+            if (counterForAcquaint != fragmentsToAcquaint.size()) {
+                nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
+            } else {
+                Intent intent = new Intent();
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
         }
     }
 
@@ -186,6 +190,9 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                 Snackbar.make(nextButton, "Регистрация успешна", Snackbar.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
                 nextButton.setVisibility(View.VISIBLE);
+                isAcquainted = true;
+                fragmentsToAcquaint = new ArrayList<>();
+                setAcquainted();
                 nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
             } else {
                 // Ошибка регистрации
