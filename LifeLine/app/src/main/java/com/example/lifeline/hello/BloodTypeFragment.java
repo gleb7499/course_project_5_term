@@ -26,12 +26,12 @@ public class BloodTypeFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String data);
+        void onFragmentInteraction(String bloodType, String rhesusFactor);
     }
 
-    private void sendDataToActivity(String data) {
+    private void sendDataToActivity(String bloodType, String rhesusFactor) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(data);
+            mListener.onFragmentInteraction(bloodType, rhesusFactor);
         } else {
             Log.d("BloodTypeFragment", "mListener is null");
         }
@@ -61,7 +61,8 @@ public class BloodTypeFragment extends Fragment {
     private void onTextChanged() {
         String bloodType = autoCompleteBloodType.getText().toString();
         String rhesusFactor = autoCompleteRhesusFactor.getText().toString();
-        String result = bloodType + " " + rhesusFactor;
-        sendDataToActivity(result);
+        if (!bloodType.isEmpty() && !rhesusFactor.isEmpty()) {
+            sendDataToActivity(bloodType, rhesusFactor);
+        }
     }
 }

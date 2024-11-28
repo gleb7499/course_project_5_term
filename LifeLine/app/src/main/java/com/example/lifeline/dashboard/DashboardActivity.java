@@ -2,7 +2,6 @@ package com.example.lifeline.dashboard;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.lifeline.R;
 import com.example.lifeline.adapters.RecyclerViewParamAdapter;
 import com.example.lifeline.authentication.AuthActivity;
+import com.example.lifeline.database.Database;
+import com.example.lifeline.database.DatabaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +39,17 @@ public class DashboardActivity extends AppCompatActivity {
     private List<String> list;
     private Button buttonAdd;
     private Button buttonLogOut;
+    private Database database;
     private ActivityResultLauncher<Intent> launcherForAuthActivity;
 
     boolean isFirstForLayoutPerson = true;
     boolean isFirstForButtonAdd = true;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DatabaseManager.getDatabase().close();
+    }
 
     private void setMargins(View view) {
         ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
@@ -64,6 +73,11 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        textViewName.setText(database.getUsername(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+    }
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -72,9 +86,7 @@ public class DashboardActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            getWindow().setNavigationBarContrastEnforced(false);
-        }
+        database = DatabaseManager.getDatabase();
 
         launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         });
@@ -138,12 +150,5 @@ public class DashboardActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         textViewName = findViewById(R.id.textViewName);
-
-//        ArrayList<Fragment> fragments = new ArrayList<>();
-//        fragments.add(new PersonFragment());
-//        fragments.add(new PlusFragment());
-
-//        getSupportFragmentManager().beginTransaction().replace(R.id.Frame, fragments.get(0)).commit();
-
     }
 }

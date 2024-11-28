@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lifeline.authentication.AuthActivity;
 import com.example.lifeline.dashboard.DashboardActivity;
+import com.example.lifeline.database.DatabaseManager;
 import com.example.lifeline.hello.HelloActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FirebaseApp.initializeApp(this);
+
+        DatabaseManager.setDatabase(this);
 
         // Запустить активити входа в систему
         launcherForHelloActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {

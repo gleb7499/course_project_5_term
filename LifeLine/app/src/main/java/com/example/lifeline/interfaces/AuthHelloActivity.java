@@ -3,7 +3,6 @@ package com.example.lifeline.interfaces;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +18,14 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.lifeline.R;
 import com.example.lifeline.authentication.EmailFragment;
 import com.example.lifeline.authentication.SignFragment;
+import com.example.lifeline.database.Database;
+import com.example.lifeline.database.DatabaseManager;
 import com.example.lifeline.hello.BloodTypeFragment;
 import com.example.lifeline.hello.HelloFragment;
 import com.example.lifeline.hello.ThanksFragment;
 import com.example.lifeline.hello.UserFragment;
 import com.example.lifeline.hello.YouIsHeroFragment;
+import com.example.lifeline.models.Users;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,8 +42,8 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     private FirebaseAuth mAuth;
     private String email;
     private String password;
-    private String user;
-    private String bloodType;
+    private Users user;
+    private Database database;
     private boolean isRegister = false;
     private ArrayList<Fragment> fragments;
     private int counterFragments = 0;
@@ -56,6 +58,10 @@ public abstract class AuthHelloActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_hello);
+
+        database = DatabaseManager.getDatabase();
+
+        user = new Users();
 
         nextButton = findViewById(R.id.buttonNext);
         AtomicInteger currentBottomForNextButton = new AtomicInteger();
@@ -99,8 +105,11 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     }
 
     private void setAcquainted() {
-        fragmentsToAcquaint.add(UserFragment.newInstance(data -> user = data));
-        fragmentsToAcquaint.add(BloodTypeFragment.newInstance(data -> bloodType = data));
+        fragmentsToAcquaint.add(UserFragment.newInstance(user -> this.user.setUsername(user)));
+        fragmentsToAcquaint.add(BloodTypeFragment.newInstance((bloodType, rhesusFactor) -> {
+            user.setBloodTypeID(database.getBloodTypeID(bloodType));
+            user.setRhesusFactorID(database.getRhesusFactorID(rhesusFactor));
+        }));
     }
 
     private void nextButtonClick() {
@@ -119,12 +128,13 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                 nextFragment(fragments.get(counterFragments++));
             }
         } else {
-            if (counterForAcquaint != fragmentsToAcquaint.size()) {
-                nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
-            } else {
+            if (counterForAcquaint == fragmentsToAcquaint.size()) {
+                database.setUser(user);
                 Intent intent = new Intent();
                 setResult(Activity.RESULT_OK, intent);
                 finish();
+            } else {
+                nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
             }
         }
     }
@@ -193,6 +203,7 @@ public abstract class AuthHelloActivity extends FragmentActivity {
                 isAcquainted = true;
                 fragmentsToAcquaint = new ArrayList<>();
                 setAcquainted();
+                user.setUserFirebaseID(task.getResult().getUser().getUid());
                 nextFragment(fragmentsToAcquaint.get(counterForAcquaint++));
             } else {
                 // Ошибка регистрации

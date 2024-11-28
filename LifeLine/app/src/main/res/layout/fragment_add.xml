@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:hint="Дата сдачи"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="47dp"
                 app:layout_constraintEnd_toStartOf="@+id/textInputLayoutDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +55,7 @@
                 style="?attr/textInputOutlinedExposedDropdownMenuStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:hint="Что сдавали"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +63,7 @@
                 app:layout_constraintWidth_percent="0.55">
 
                 <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewDonationType"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="none"
@@ -73,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toStartOf="@+id/textInputLayoutSubject"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDate"
@@ -94,7 +96,7 @@
                 app:suffixText="мл.">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextVolume"
+                    android:id="@+id/textInputEditTextQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -118,9 +120,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:textSize="16sp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="40dp"
                 android:text="Добавить"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
