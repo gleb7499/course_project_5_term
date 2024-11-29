@@ -48,7 +48,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/textInputLayoutDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/calendar_today" />
+                app:srcCompat="@drawable/calendar_edit_text" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutSubject"

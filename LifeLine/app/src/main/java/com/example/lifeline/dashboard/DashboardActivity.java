@@ -3,7 +3,6 @@ package com.example.lifeline.dashboard;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,10 +22,10 @@ import com.example.lifeline.adapters.RecyclerViewParamAdapter;
 import com.example.lifeline.authentication.AuthActivity;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
+import com.example.lifeline.models.RecyclerViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView textViewName;
-    private List<String> list;
+    private List<RecyclerViewModel> recyclerViewModels;
     private Button buttonAdd;
     private Button buttonLogOut;
     private Database database;
@@ -49,28 +48,6 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         DatabaseManager.getDatabase().close();
-    }
-
-    private void setMargins(View view) {
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-
-            // Сохраняем текущие отступы из XML
-            int currentTop = mlp.topMargin;
-            int currentLeft = mlp.leftMargin;
-            int currentBottom = mlp.bottomMargin;
-            int currentRight = mlp.rightMargin;
-
-            // Добавляем системные отступы к текущим отступам
-            mlp.topMargin = currentTop + insets.top;
-            mlp.leftMargin = currentLeft + insets.left;
-            mlp.bottomMargin = currentBottom + insets.bottom;
-            mlp.rightMargin = currentRight + insets.right;
-
-            v.setLayoutParams(mlp);
-            return WindowInsetsCompat.CONSUMED;
-        });
     }
 
     @Override
@@ -143,10 +120,12 @@ public class DashboardActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(DashboardActivity.this, LinearLayoutManager.VERTICAL, false));
 
-        list = new ArrayList<>();
-        list.add("0.45 л");
+        recyclerViewModels = new ArrayList<>();
+        recyclerViewModels.add(new RecyclerViewModel("Общее количество крови", R.drawable.donation));
+        recyclerViewModels.add(new RecyclerViewModel("Количество сдач", R.drawable.score));
+        recyclerViewModels.add(new RecyclerViewModel("История", R.drawable.history));
 
-        RecyclerViewParamAdapter adapter = new RecyclerViewParamAdapter(DashboardActivity.this, list);
+        RecyclerViewParamAdapter adapter = new RecyclerViewParamAdapter(DashboardActivity.this, recyclerViewModels);
         recyclerView.setAdapter(adapter);
 
         textViewName = findViewById(R.id.textViewName);

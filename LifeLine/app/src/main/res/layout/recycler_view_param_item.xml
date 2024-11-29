@@ -29,11 +29,11 @@
 
                 <ImageView
                     android:id="@+id/imageView_1"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="start"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@android:color/transparent"
                     android:scaleType="centerInside" />
 
@@ -48,6 +48,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
@@ -63,11 +64,11 @@
 
                 <ImageView
                     android:id="@+id/imageView_2"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="start"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@android:color/transparent"
                     android:scaleType="centerInside" />
 
