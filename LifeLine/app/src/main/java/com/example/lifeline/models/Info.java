@@ -1,10 +1,10 @@
 package com.example.lifeline.models;
 
-public class RecyclerViewModel {
+public class Info {
     private String value;
     private int image;
 
-    public RecyclerViewModel(String value, int image) {
+    public Info(String value, int image) {
         this.value = value;
         this.image = image;
     }
@@ -13,15 +13,7 @@ public class RecyclerViewModel {
         return image;
     }
 
-    public void setImage(int image) {
-        this.image = image;
-    }
-
     public String getValue() {
         return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 }

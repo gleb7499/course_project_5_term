@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.lifeline.models.Donations;
 import com.example.lifeline.models.Users;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Database {
     private final SQLiteDatabase db;
     private final DatabaseHelper dbHelper;
@@ -29,12 +32,10 @@ public class Database {
 
     public void setUser(Users user) {
         ContentValues values = new ContentValues();
-
         values.put("userFirebaseID", user.getUserFirebaseID());
         values.put("username", user.getUsername());
         values.put("bloodTypeID", user.getBloodTypeID());
         values.put("rhesusFactorID", user.getRhesusFactorID());
-
         db.insertOrThrow("Users", null, values);
     }
 
@@ -58,10 +59,6 @@ public class Database {
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT rhesusFactorID FROM RhesusFactors WHERE rhesusFactor = '" + rhesusFactor + "'", null);
         cursor.moveToFirst();
         return cursor.getInt(0);
-    }
-
-    public void deleteAllUsers() {
-        db.delete("Users", null, null);
     }
 
     public String getDonationTypeID(String donationType) {
@@ -88,17 +85,26 @@ public class Database {
         return "-";
     }
 
+    public List<String> getHistory(String userFirebaseID) {
+        List<String> history = new ArrayList<>();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT donationDate FROM Donations WHERE userFirebaseID = ?", new String[]{userFirebaseID});
+        if (cursor.moveToFirst()) {
+            do {
+                history.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        return history;
+    }
+
     public boolean setDonation(Donations donation) {
         if (existsDonation(donation.getDonationDate(), donation.getUserFirebaseID())) {
             return false;
         }
         ContentValues values = new ContentValues();
-
         values.put("userFirebaseID", donation.getUserFirebaseID());
         values.put("donationDate", donation.getDonationDate());
         values.put("donationTypeID", donation.getDonationTypeID());
         values.put("quantity", donation.getQuantity());
-
         db.insertOrThrow("Donations", null, values);
         return true;
     }

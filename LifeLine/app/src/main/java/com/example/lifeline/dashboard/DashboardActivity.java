@@ -18,11 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifeline.R;
-import com.example.lifeline.adapters.RecyclerViewParamAdapter;
+import com.example.lifeline.adapters.InfoAdapter;
 import com.example.lifeline.authentication.AuthActivity;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
-import com.example.lifeline.models.RecyclerViewModel;
+import com.example.lifeline.models.Info;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -35,7 +35,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView textViewName;
-    private List<RecyclerViewModel> recyclerViewModels;
+    private List<Info> infos;
     private Button buttonAdd;
     private Button buttonLogOut;
     private Database database;
@@ -121,14 +121,14 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DashboardActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        recyclerViewModels = new ArrayList<>();
-        recyclerViewModels.add(new RecyclerViewModel(database.getTotalVolumeDonations(userFirebaseID), R.drawable.donation));
-        recyclerViewModels.add(new RecyclerViewModel(database.getTotalDeliveries(userFirebaseID), R.drawable.score));
-        recyclerViewModels.add(new RecyclerViewModel("История", R.drawable.history));
+        infos = new ArrayList<>();
+        infos.add(new Info(database.getTotalVolumeDonations(userFirebaseID), R.drawable.donation));
+        infos.add(new Info(database.getTotalDeliveries(userFirebaseID), R.drawable.score));
+        infos.add(new Info("История", R.drawable.history));
 
-        RecyclerViewParamAdapter adapter = new RecyclerViewParamAdapter(DashboardActivity.this, recyclerViewModels);
+        InfoAdapter adapter = new InfoAdapter(this, infos);
         recyclerView.setAdapter(adapter);
 
         textViewName = findViewById(R.id.textViewName);
