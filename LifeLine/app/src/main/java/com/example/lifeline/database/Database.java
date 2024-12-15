@@ -96,7 +96,7 @@ public class Database {
         return history;
     }
 
-    public boolean setDonation(Donations donation) {
+    public boolean addDonation(Donations donation) {
         if (existsDonation(donation.getDonationDate(), donation.getUserFirebaseID())) {
             return false;
         }
@@ -109,8 +109,31 @@ public class Database {
         return true;
     }
 
+    public boolean updateDonation(Donations donation) {
+        if (!existsDonation(donation.getDonationDate(), donation.getUserFirebaseID())) {
+            return false;
+        }
+        ContentValues values = new ContentValues();
+        values.put("donationDate", donation.getDonationDate());
+        values.put("donationTypeID", donation.getDonationTypeID());
+        values.put("quantity", donation.getQuantity());
+        return db.update("Donations", values, "donationDate = ? AND userFirebaseID = ?", new String[]{donation.getDonationDate(), donation.getUserFirebaseID()}) > 0;
+    }
+
     private boolean existsDonation(String donationDate, String userFirebaseID) {
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Donations WHERE donationDate = '" + donationDate + "' AND userFirebaseID = '" + userFirebaseID + "'", null);
         return cursor.getCount() > 0;
+    }
+
+    public Donations getDonationByDate(String donationDate, String userFirebaseID) {
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Donations WHERE donationDate = '" + donationDate + "' AND userFirebaseID = '" + userFirebaseID + "'", null);
+        cursor.moveToFirst();
+        return new Donations(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+    }
+
+    public String getDonationType(String donationTypeID) {
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT donationType FROM DonationTypes WHERE donationTypeID = '" + donationTypeID + "'", null);
+        cursor.moveToFirst();
+        return cursor.getString(0);
     }
 }

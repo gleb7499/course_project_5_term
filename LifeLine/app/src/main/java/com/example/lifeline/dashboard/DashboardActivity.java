@@ -22,6 +22,7 @@ import com.example.lifeline.adapters.InfoAdapter;
 import com.example.lifeline.authentication.AuthActivity;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
+import com.example.lifeline.interfaces.AddViewFragment;
 import com.example.lifeline.models.Info;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -54,7 +55,7 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        textViewName.setText(database.getUsername(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+        textViewName.setText(database.getUsername(userFirebaseID));
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -102,8 +103,8 @@ public class DashboardActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
         buttonAdd.setOnClickListener(v -> {
-            AddFragment addFragment = new AddFragment();
-            addFragment.show(getSupportFragmentManager(), AddFragment.TAG);
+            AddViewFragment addFragment = new AddFragment();
+            addFragment.show(getSupportFragmentManager(), AddViewFragment.TAG);
         });
 
         buttonLogOut = findViewById(R.id.iconButtonLogOut);

@@ -6,6 +6,13 @@ public class Donations {
     private String donationTypeID;
     private String quantity;
 
+    public Donations(String userFirebaseID, String donationDate, String donationTypeID, String quantity) {
+        this.userFirebaseID = userFirebaseID;
+        this.donationDate = donationDate;
+        this.donationTypeID = donationTypeID;
+        this.quantity = quantity;
+    }
+
     public Donations() {
     }
 
