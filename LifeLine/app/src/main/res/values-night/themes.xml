@@ -1,5 +1,35 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.LifeLine" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.LifeLine" parent="Theme.Material3.DynamicColors.Dark.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
     </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.LifeLine" parent="Base.Theme.LifeLine">
+    </style>
+
+    <style name="Text" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="HelloText" parent="Text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintWidth_percent">0.9</item>
+    </style>
+
+    <style name="ButtonThemeHello" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textSize">16sp</item>
+        <item name="cornerRadius">17dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
 </resources>

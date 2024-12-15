@@ -13,6 +13,7 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 
 import com.example.lifeline.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class SignFragment extends Fragment {
 
@@ -45,6 +46,8 @@ public class SignFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sign, container, false);
 
         EditText editTextPasswordAgain = view.findViewById(R.id.editTextPasswordAgain);
+        TextInputLayout textInputLayoutPasswordAgain = view.findViewById(R.id.textInputLayoutAgain);
+
         EditText editTextPassword = view.findViewById(R.id.editTextPassword);
 
         Button buttonSwitchEntryMethods = view.findViewById(R.id.buttonSwitchEntryMethods);
@@ -54,11 +57,13 @@ public class SignFragment extends Fragment {
                 editTextPasswordAgain.setText("");
                 editTextPassword.setText("");
                 editTextPasswordAgain.setVisibility(View.GONE);
+                textInputLayoutPasswordAgain.setVisibility(View.GONE);
             } else {
                 buttonSwitchEntryMethods.setText("Регистрация");
                 editTextPasswordAgain.setText("");
                 editTextPassword.setText("");
                 editTextPasswordAgain.setVisibility(View.VISIBLE);
+                textInputLayoutPasswordAgain.setVisibility(View.VISIBLE);
             }
         });
 
@@ -73,8 +78,9 @@ public class SignFragment extends Fragment {
                 // Действия при изменении текста
                 if (s.toString().equals(editTextPassword.getText().toString())) {
                     sendDataToActivity(s.toString(), true);
+                    textInputLayoutPasswordAgain.setError(null);
                 } else {
-                    editTextPasswordAgain.setError("Пароли не совпадают");
+                    textInputLayoutPasswordAgain.setError("Пароли не совпадают");
                 }
             }
 

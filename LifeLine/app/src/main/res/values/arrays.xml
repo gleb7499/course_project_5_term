@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="donation_type">
+        <item>Цельная кровь</item>
+        <item>Плазма</item>
+        <item>Концентрат тромбоцитов</item>
+    </string-array>
+
+    <string-array name="blood_types">
+        <item>I (0)</item>
+        <item>II (A)</item>
+        <item>III (B)</item>
+        <item>IV (AB)</item>
+    </string-array>
+
+    <string-array name="rhesus_factors">
+        <item>+</item>
+        <item>-</item>
+    </string-array>
+</resources>

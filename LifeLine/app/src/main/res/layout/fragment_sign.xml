@@ -4,52 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
     tools:context=".authentication.SignFragment">
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:alpha="0.8"
-        android:ems="12"
         android:hint="Пароль"
-        android:inputType="textPassword"
-        android:textAlignment="center"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintWidth_percent="0.75">
 
-    <EditText
-        android:id="@+id/editTextPasswordAgain"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutAgain"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:alpha="0.8"
-        android:ems="12"
         android:hint="Повторите пароль"
-        android:inputType="textPassword"
-        android:textAlignment="center"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+        app:layout_constraintVertical_bias="0.57"
+        app:layout_constraintWidth_percent="0.75">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPasswordAgain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSwitchEntryMethods"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/colorPrimary"
+        style="@style/ButtonThemeHello"
         android:text="Регистрация"
-        android:textSize="16sp"
-        app:cornerRadius="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75"
-        style="@style/Base.Theme.LifeLine"/>
+        app:layout_constraintVertical_bias="0.72" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

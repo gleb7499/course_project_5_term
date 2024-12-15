@@ -14,16 +14,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/imageButtonNext"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="35dp"
-        android:alpha="0.6"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonNext"
+        style="?attr/floatingActionButtonLargeStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="65dp"
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,17 +29,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="30dp"
-        android:alpha="0.8"
-        android:indeterminateDuration="2000"
-        android:maxWidth="70dp"
-        android:maxHeight="70dp"
-        android:mirrorForRtl="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="85dp"
+        android:indeterminate="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
