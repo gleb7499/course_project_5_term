@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,7 +37,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class AuthHelloActivity extends FragmentActivity {
+public class AuthHelloActivity extends FragmentActivity {
     private FloatingActionButton nextButton;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -93,6 +94,16 @@ public abstract class AuthHelloActivity extends FragmentActivity {
             mlp.bottomMargin = currentBottomForProgressBar.get() + insets.bottom;
             v.setLayoutParams(mlp);
             return WindowInsetsCompat.CONSUMED;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (counterFragments > 0) {
+                    counterFragments--;
+                    getSupportFragmentManager().popBackStack();
+                }
+            }
         });
 
         mAuth = FirebaseAuth.getInstance();
@@ -154,7 +165,12 @@ public abstract class AuthHelloActivity extends FragmentActivity {
     }
 
     private void nextFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).replace(R.id.Frame, fragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(R.id.Frame, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void loginUser() {

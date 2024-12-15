@@ -19,8 +19,12 @@ public class Database {
     }
 
     public void close() {
-        db.close();
-        dbHelper.close();
+        if (db != null) {
+            db.close();
+        }
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
     }
 
     public void setUser(Users user) {
@@ -66,13 +70,31 @@ public class Database {
         return cursor.getString(0);
     }
 
+    public String getTotalVolumeDonations(String userFirebaseID) {
+        Cursor cursor = db.rawQuery("SELECT SUM(quantity) FROM Donations WHERE userFirebaseID = ?", new String[]{userFirebaseID});
+        if (cursor.moveToFirst()) {
+            return cursor.getFloat(0) / 1000 + " л";
+        }
+        cursor.close();
+        return "---";
+    }
+
+    public String getTotalDeliveries(String userFirebaseID) {
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM Donations WHERE userFirebaseID = ?", new String[]{userFirebaseID});
+        if (cursor.moveToFirst()) {
+            return cursor.getInt(0) + " раз";
+        }
+        cursor.close();
+        return "-";
+    }
+
     public boolean setDonation(Donations donation) {
         if (existsDonation(donation.getDonationDate(), donation.getUserFirebaseID())) {
             return false;
         }
         ContentValues values = new ContentValues();
 
-        values.put("userID", donation.getUserFirebaseID());
+        values.put("userFirebaseID", donation.getUserFirebaseID());
         values.put("donationDate", donation.getDonationDate());
         values.put("donationTypeID", donation.getDonationTypeID());
         values.put("quantity", donation.getQuantity());

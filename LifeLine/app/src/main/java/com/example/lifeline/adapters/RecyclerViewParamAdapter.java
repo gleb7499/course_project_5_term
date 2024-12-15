@@ -35,17 +35,17 @@ public class RecyclerViewParamAdapter extends RecyclerView.Adapter<RecyclerViewP
 
     @Override
     public int getItemCount() {
-        return (int) Math.ceil((double) list.size() / paramViewHolder.elementsNumber);
+        return (int) Math.ceil((float) list.size() / paramViewHolder.numberOfItemsInOneRow);
     }
 
     @Override
     public void onBindViewHolder(@NonNull paramViewHolder holder, int position) {
-        holder.textView_1.setText(list.get(position * paramViewHolder.elementsNumber).getValue());
-        holder.imageView_1.setImageResource(list.get(position * paramViewHolder.elementsNumber).getImage());
+        holder.textView_1.setText(list.get(position * paramViewHolder.numberOfItemsInOneRow).getValue());
+        holder.imageView_1.setImageResource(list.get(position * paramViewHolder.numberOfItemsInOneRow).getImage());
 
-        if (position * paramViewHolder.elementsNumber + 1 < list.size()) {
-            holder.textView_2.setText(list.get(position * paramViewHolder.elementsNumber + 1).getValue());
-            holder.imageView_2.setImageResource(list.get(position * paramViewHolder.elementsNumber + 1).getImage());
+        if (position * paramViewHolder.numberOfItemsInOneRow + 1 < list.size()) {
+            holder.textView_2.setText(list.get(position * paramViewHolder.numberOfItemsInOneRow + 1).getValue());
+            holder.imageView_2.setImageResource(list.get(position * paramViewHolder.numberOfItemsInOneRow + 1).getImage());
         } else {
             holder.cardView_2.setVisibility(View.GONE);
         }
@@ -58,7 +58,7 @@ public class RecyclerViewParamAdapter extends RecyclerView.Adapter<RecyclerViewP
         private final ImageView imageView_1;
         private final ImageView imageView_2;
         private final CardView cardView_2;
-        private static final int elementsNumber = 2;
+        private static final int numberOfItemsInOneRow = 2;
 
         public paramViewHolder(View view) {
             super(view);

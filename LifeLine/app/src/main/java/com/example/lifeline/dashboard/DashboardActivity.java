@@ -40,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity {
     private Button buttonLogOut;
     private Database database;
     private ActivityResultLauncher<Intent> launcherForAuthActivity;
+    private String userFirebaseID;
 
     boolean isFirstForLayoutPerson = true;
     boolean isFirstForButtonAdd = true;
@@ -64,6 +65,8 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         database = DatabaseManager.getDatabase();
+
+        userFirebaseID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         });
@@ -121,8 +124,8 @@ public class DashboardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(DashboardActivity.this, LinearLayoutManager.VERTICAL, false));
 
         recyclerViewModels = new ArrayList<>();
-        recyclerViewModels.add(new RecyclerViewModel("Общее количество крови", R.drawable.donation));
-        recyclerViewModels.add(new RecyclerViewModel("Количество сдач", R.drawable.score));
+        recyclerViewModels.add(new RecyclerViewModel(database.getTotalVolumeDonations(userFirebaseID), R.drawable.donation));
+        recyclerViewModels.add(new RecyclerViewModel(database.getTotalDeliveries(userFirebaseID), R.drawable.score));
         recyclerViewModels.add(new RecyclerViewModel("История", R.drawable.history));
 
         RecyclerViewParamAdapter adapter = new RecyclerViewParamAdapter(DashboardActivity.this, recyclerViewModels);
