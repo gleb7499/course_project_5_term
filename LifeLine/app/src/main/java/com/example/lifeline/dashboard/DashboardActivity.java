@@ -18,24 +18,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifeline.R;
-import com.example.lifeline.adapters.RecyclerViewParamAdapter;
+import com.example.lifeline.adapters.InfoAdapter;
 import com.example.lifeline.authentication.AuthActivity;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
-import com.example.lifeline.models.RecyclerViewModel;
-import com.google.firebase.auth.FirebaseAuth;
-
+import com.example.lifeline.interfaces.AddViewFragment;
+import com.example.lifeline.interfaces.OnFragmentInteractionListener;
+import com.example.lifeline.models.Info;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private RecyclerView recyclerView;
     private TextView textViewName;
-    private List<RecyclerViewModel> recyclerViewModels;
+    private List<Info> infos;
     private Button buttonAdd;
     private Button buttonLogOut;
     private Database database;
@@ -54,7 +55,20 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        textViewName.setText(database.getUsername(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+        updateInfo();
+    }
+
+    private void updateInfo() {
+        userFirebaseID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        textViewName.setText(database.getUsername(userFirebaseID));
+
+        infos.clear();
+        infos.add(new Info(database.getTotalVolumeDonations(userFirebaseID), R.drawable.donation));
+        infos.add(new Info(database.getTotalDeliveries(userFirebaseID), R.drawable.score));
+        infos.add(new Info("История", R.drawable.history));
+
+        InfoAdapter adapter = new InfoAdapter(this, infos);
+        recyclerView.setAdapter(adapter);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -65,8 +79,6 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         database = DatabaseManager.getDatabase();
-
-        userFirebaseID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         });
@@ -102,15 +114,15 @@ public class DashboardActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
         buttonAdd.setOnClickListener(v -> {
-            AddFragment addFragment = new AddFragment();
-            addFragment.show(getSupportFragmentManager(), AddFragment.TAG);
+            AddViewFragment addFragment = new AddFragment();
+            addFragment.show(getSupportFragmentManager(), AddViewFragment.TAG);
         });
 
         buttonLogOut = findViewById(R.id.iconButtonLogOut);
         buttonLogOut.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(this)
-                    .setTitle("Вы уверены?")
-                    .setMessage("Вы действительно хотите выйти?\nВаши данные не будут удалены.")
+                    .setTitle("Выйти из аккаунта?")
+                    .setMessage("Ваши данные не будут удалены.")
                     .setNeutralButton("Отмена", (dialog, which) -> {
                     })
                     .setPositiveButton("Выйти", (dialog, which) -> {
@@ -121,16 +133,17 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DashboardActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        recyclerViewModels = new ArrayList<>();
-        recyclerViewModels.add(new RecyclerViewModel(database.getTotalVolumeDonations(userFirebaseID), R.drawable.donation));
-        recyclerViewModels.add(new RecyclerViewModel(database.getTotalDeliveries(userFirebaseID), R.drawable.score));
-        recyclerViewModels.add(new RecyclerViewModel("История", R.drawable.history));
-
-        RecyclerViewParamAdapter adapter = new RecyclerViewParamAdapter(DashboardActivity.this, recyclerViewModels);
-        recyclerView.setAdapter(adapter);
+        infos = new ArrayList<>();
 
         textViewName = findViewById(R.id.textViewName);
+    }
+
+    @Override
+    public void onFragmentInteraction(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            updateInfo();
+        }
     }
 }

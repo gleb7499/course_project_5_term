@@ -14,12 +14,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="7.5dp"
             android:layout_marginBottom="15dp"
             android:layout_weight="0.5"
             android:background="@android:color/transparent"
+            android:transitionName="shared_element_transition"
             app:cardCornerRadius="30dp"
             app:cardElevation="3dp">
 
@@ -39,10 +41,10 @@
 
                 <TextView
                     android:id="@+id/textView_1"
-                    android:textSize="22sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:textSize="22sp" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
@@ -55,6 +57,7 @@
             android:layout_marginBottom="15dp"
             android:layout_weight="0.5"
             android:background="@android:color/transparent"
+            android:transitionName="shared_element_transition"
             app:cardCornerRadius="30dp"
             app:cardElevation="3dp">
 
@@ -74,10 +77,10 @@
 
                 <TextView
                     android:id="@+id/textView_2"
-                    android:textSize="22sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:textSize="22sp" />
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>

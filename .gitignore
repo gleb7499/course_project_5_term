@@ -8,6 +8,8 @@
 .cxx
 local.properties
 *.json
-*~
 **/build
 **/reports
+**~
+**.apk
+
