@@ -1,7 +1,10 @@
 package com.example.lifeline.adapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifeline.R;
@@ -31,11 +35,16 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
     @NonNull
     @Override
     public InfoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new InfoViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_view_info_item, parent, false));
+        View InfoView = LayoutInflater.from(context).inflate(R.layout.recycler_view_info_item, parent, false);
+        return new InfoViewHolder(InfoView);
     }
 
     private void setOnClickListenerForHistory(CardView cardView) {
-        cardView.setOnClickListener(view1 -> context.startActivity(new Intent(context, HistoryActivity.class)));
+        cardView.setOnClickListener(view1 -> {
+            Intent intent = new Intent(context, HistoryActivity.class);
+            ActivityOptionsCompat options = ActivityOptionsCompat .makeSceneTransitionAnimation((Activity) context, cardView, "shared_element_transition");
+            context.startActivity(intent, options.toBundle());
+        });
     }
 
     @Override

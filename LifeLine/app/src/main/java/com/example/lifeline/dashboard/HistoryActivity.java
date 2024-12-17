@@ -1,7 +1,9 @@
 package com.example.lifeline.dashboard;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import com.example.lifeline.R;
 import com.example.lifeline.adapters.HistoryAdapter;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
+import com.example.lifeline.interfaces.OnFragmentInteractionListener;
 import com.example.lifeline.models.History;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,13 +25,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private boolean isFirstForLayoutPerson = true;
     private RecyclerView recyclerViewHistory;
     private List<History> historyList;
+    private TextView textViewHistoryEmpty;
     private Database database;
     private String userFirebaseID;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateHistory();
+    }
+
+    private void updateHistory() {
+        userFirebaseID = FirebaseAuth.getInstance().getUid();
+
+        historyList.clear();
+        historyList = database.getHistory(userFirebaseID);
+        if (historyList.isEmpty()) {
+            textViewHistoryEmpty.setVisibility(View.VISIBLE);
+        } else {
+            textViewHistoryEmpty.setVisibility(View.GONE);
+        }
+
+        HistoryAdapter historyAdapter = new HistoryAdapter(this, historyList);
+        recyclerViewHistory.setAdapter(historyAdapter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +62,6 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         database = DatabaseManager.getDatabase();
-
-        userFirebaseID = FirebaseAuth.getInstance().getUid();
 
         AtomicInteger currentTopForRecyclerView = new AtomicInteger();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recyclerViewHistory), (v, windowInsets) -> {
@@ -55,15 +78,18 @@ public class HistoryActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
 
+        textViewHistoryEmpty = findViewById(R.id.textViewHistoryEmpty);
         recyclerViewHistory = findViewById(R.id.recyclerViewHistory);
-        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         historyList = new ArrayList<>();
-        for (String date : database.getHistory(userFirebaseID)) {
-            historyList.add(new History(date));
-        }
 
-        HistoryAdapter historyAdapter = new HistoryAdapter(this, historyList);
-        recyclerViewHistory.setAdapter(historyAdapter);
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+
+    @Override
+    public void onFragmentInteraction(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            updateHistory();
+        }
     }
 }

@@ -1,6 +1,13 @@
 package com.example.lifeline.interfaces;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +38,7 @@ public abstract class AddViewFragment extends BottomSheetDialogFragment {
     public static final String TAG = "AddViewFragment";
     private static final int ADD = 0;
     private static final int UPDATE = 1;
+    private static final int DELETE = 2;
 
     private View view;
     private BottomSheetBehavior modalBottomSheetBehavior;
@@ -42,8 +51,31 @@ public abstract class AddViewFragment extends BottomSheetDialogFragment {
     private TextInputEditText textInputEditTextQuantity;
     private Button buttonAddDonation;
     private Button buttonEditDonation;
+    private Button buttonDeleteDonation;
     private Database database;
     private Donations donation;
+
+    private OnFragmentInteractionListener listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            listener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (listener != null) {
+            listener.onFragmentInteraction(RESULT_OK);
+        }
+        dismiss();
+        listener = null;
+    }
 
     @Nullable
     @Override
@@ -59,6 +91,7 @@ public abstract class AddViewFragment extends BottomSheetDialogFragment {
         textInputEditTextQuantity = view.findViewById(R.id.textInputEditTextQuantity);
         buttonAddDonation = view.findViewById(R.id.buttonAddDonation);
         buttonEditDonation = view.findViewById(R.id.buttonEditDonation);
+        buttonDeleteDonation = view.findViewById(R.id.buttonDeleteDonation);
 
         // Установить начальное состояние
         LinearLayout standardBottomSheet = view.findViewById(R.id.standard_bottom_sheet);
@@ -82,39 +115,59 @@ public abstract class AddViewFragment extends BottomSheetDialogFragment {
     public void whatsFragment(@NonNull String date) {
         if (date.isEmpty()) {
             setDonationType();
-            addNewDonation();
+            setAddNewDonation();
             buttonEditDonation.setVisibility(View.GONE);
-            buttonEditDonation.setFocusable(false);
-            buttonAddDonation.setVisibility(View.VISIBLE);
+            buttonDeleteDonation.setVisibility(View.GONE);
         } else {
-            Donations donation = database.getDonationByDate(date, FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-            textFieldDate.setText(donation.getDonationDate());
-            autoCompleteTextViewDonationType.setText(database.getDonationType(donation.getDonationTypeID()));
-            textInputEditTextQuantity.setText(donation.getQuantity());
-
-            buttonEditDonation.setOnClickListener(v -> {
-                setDonation(AddViewFragment.UPDATE);
-            });
-
-            buttonEditDonation.setVisibility(View.VISIBLE);
-            buttonAddDonation.setFocusable(false);
+            setDataDonation(date);
+            setUpdateDonation();
+            setDeleteDonation();
             buttonAddDonation.setVisibility(View.GONE);
         }
     }
 
-    private void addNewDonation() {
-        buttonAddDonation.setOnClickListener(v -> {
-            setDonation(AddViewFragment.ADD);
-        });
+    private void setDataDonation(String date) {
+        donation = database.getDonationByDate(date, FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        textFieldDate.setText(donation.getDonationDate());
+        donationType = database.getDonationType(donation.getDonationTypeID());
+        autoCompleteTextViewDonationType.setText(donationType);
+        textInputEditTextQuantity.setText(donation.getQuantity());
     }
 
-    private void setDonation(int action) {
+    private void setUpdateDonation() {
+        buttonEditDonation.setVisibility(View.VISIBLE);
+        buttonEditDonation.setOnClickListener(v -> editDonation(AddViewFragment.UPDATE));
+    }
+
+    private void setAddNewDonation() {
+        buttonAddDonation.setVisibility(View.VISIBLE);
+        buttonAddDonation.setOnClickListener(v -> editDonation(AddViewFragment.ADD));
+    }
+
+    private void setDeleteDonation() {
+        buttonDeleteDonation.setVisibility(View.VISIBLE);
+        String message = "Вы действительно хотите удалить запись о сдаче за " + donation.getDonationDate() + " число?";
+        int startIndexDate = message.indexOf(donation.getDonationDate());
+        int endIndexDate = startIndexDate + donation.getDonationDate().length();
+        SpannableString spannableString = new SpannableString(message);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), startIndexDate, endIndexDate, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        buttonDeleteDonation.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Вы уверены?")
+                .setMessage(spannableString)
+                .setNeutralButton("Отмена", (dialog, which) -> {
+                })
+                .setPositiveButton("Удалить", (dialog, which) -> editDonation(AddViewFragment.DELETE))
+                .show()
+        );
+    }
+
+    private void editDonation(int action) {
         donation.setUserFirebaseID(FirebaseAuth.getInstance().getCurrentUser().getUid());
         donation.setDonationDate(textFieldDate.getText().toString());
         donation.setDonationTypeID(database.getDonationTypeID(donationType));
         donation.setQuantity(textInputEditTextQuantity.getText().toString());
-        if (action == ADD ? !database.addDonation(donation) : !database.updateDonation(donation)) {
+        if (action == ADD ? !database.addDonation(donation) : action == DELETE ? !database.deleteDonation(donation) : !database.updateDonation(donation)) {
             textInputLayoutDate.setError("Такая запись уже существует");
         } else {
             modalBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -146,7 +199,7 @@ public abstract class AddViewFragment extends BottomSheetDialogFragment {
     private void setDatePicker() {
         datePicker = MaterialDatePicker.Builder.datePicker()
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .setTitleText("Дата кровосдачи")
+                .setTitleText("Дата сдачи")
                 .build();
 
         datePicker.addOnPositiveButtonClickListener(selection -> {

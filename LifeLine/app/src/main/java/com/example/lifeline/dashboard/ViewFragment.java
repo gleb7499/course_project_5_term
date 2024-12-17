@@ -1,6 +1,5 @@
 package com.example.lifeline.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.lifeline.interfaces.AddViewFragment;

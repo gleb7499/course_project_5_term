@@ -1,12 +1,22 @@
 package com.example.lifeline.models;
 
 public class Donations {
+    private String donationID;
     private String userFirebaseID;
     private String donationDate;
     private String donationTypeID;
     private String quantity;
 
-    public Donations(String userFirebaseID, String donationDate, String donationTypeID, String quantity) {
+    {
+        donationID = "";
+        userFirebaseID = "";
+        donationDate = "";
+        donationTypeID = "";
+        quantity = "";
+    }
+
+    public Donations(String donationID, String userFirebaseID, String donationDate, String donationTypeID, String quantity) {
+        this.donationID = donationID;
         this.userFirebaseID = userFirebaseID;
         this.donationDate = donationDate;
         this.donationTypeID = donationTypeID;
@@ -14,6 +24,10 @@ public class Donations {
     }
 
     public Donations() {
+    }
+
+    public String getDonationID() {
+        return donationID;
     }
 
     public String getUserFirebaseID() {

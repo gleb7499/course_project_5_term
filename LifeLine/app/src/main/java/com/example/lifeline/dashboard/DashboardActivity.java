@@ -23,16 +23,16 @@ import com.example.lifeline.authentication.AuthActivity;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
 import com.example.lifeline.interfaces.AddViewFragment;
+import com.example.lifeline.interfaces.OnFragmentInteractionListener;
 import com.example.lifeline.models.Info;
-import com.google.firebase.auth.FirebaseAuth;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private RecyclerView recyclerView;
     private TextView textViewName;
@@ -55,7 +55,20 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        updateInfo();
+    }
+
+    private void updateInfo() {
+        userFirebaseID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         textViewName.setText(database.getUsername(userFirebaseID));
+
+        infos.clear();
+        infos.add(new Info(database.getTotalVolumeDonations(userFirebaseID), R.drawable.donation));
+        infos.add(new Info(database.getTotalDeliveries(userFirebaseID), R.drawable.score));
+        infos.add(new Info("История", R.drawable.history));
+
+        InfoAdapter adapter = new InfoAdapter(this, infos);
+        recyclerView.setAdapter(adapter);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -66,8 +79,6 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         database = DatabaseManager.getDatabase();
-
-        userFirebaseID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         launcherForAuthActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         });
@@ -110,8 +121,8 @@ public class DashboardActivity extends AppCompatActivity {
         buttonLogOut = findViewById(R.id.iconButtonLogOut);
         buttonLogOut.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(this)
-                    .setTitle("Вы уверены?")
-                    .setMessage("Вы действительно хотите выйти?\nВаши данные не будут удалены.")
+                    .setTitle("Выйти из аккаунта?")
+                    .setMessage("Ваши данные не будут удалены.")
                     .setNeutralButton("Отмена", (dialog, which) -> {
                     })
                     .setPositiveButton("Выйти", (dialog, which) -> {
@@ -125,13 +136,14 @@ public class DashboardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         infos = new ArrayList<>();
-        infos.add(new Info(database.getTotalVolumeDonations(userFirebaseID), R.drawable.donation));
-        infos.add(new Info(database.getTotalDeliveries(userFirebaseID), R.drawable.score));
-        infos.add(new Info("История", R.drawable.history));
-
-        InfoAdapter adapter = new InfoAdapter(this, infos);
-        recyclerView.setAdapter(adapter);
 
         textViewName = findViewById(R.id.textViewName);
+    }
+
+    @Override
+    public void onFragmentInteraction(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            updateInfo();
+        }
     }
 }

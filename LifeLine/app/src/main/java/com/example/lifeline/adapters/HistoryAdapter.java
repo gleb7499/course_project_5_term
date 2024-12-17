@@ -1,7 +1,7 @@
 package com.example.lifeline.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifeline.R;
-import com.example.lifeline.dashboard.AddFragment;
 import com.example.lifeline.dashboard.ViewFragment;
 import com.example.lifeline.interfaces.AddViewFragment;
 import com.example.lifeline.models.History;
@@ -37,10 +35,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         return new HistoryViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_view_history_item, parent, false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
-        holder.textView.setText(list.get(position).getDate());
-        holder.cardView.setOnClickListener(view -> {
+        holder.textViewDate.setText(list.get(position).getDate());
+        holder.textViewNumber.setText("#" + (position + 1));
+        holder.itemView.setOnClickListener(view -> {
             AddViewFragment viewFragment = new ViewFragment();
             Bundle bundle = new Bundle();
             bundle.putString("date", list.get(position).getDate());
@@ -55,13 +55,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     }
 
     public static final class HistoryViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
-        private final CardView cardView;
+        private final TextView textViewDate;
+        private final TextView textViewNumber;
 
         public HistoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
-            cardView = itemView.findViewById(R.id.cardView);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
+            textViewNumber = itemView.findViewById(R.id.textViewNumber);
         }
     }
 }
