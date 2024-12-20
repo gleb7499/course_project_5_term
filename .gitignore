@@ -12,5 +12,4 @@ local.properties
 **~
 **.apk
 **/org/
-**/com/
-
+/LifeLine/app/src/main/com/
