@@ -22,7 +22,6 @@ import com.example.lifeline.adapters.InfoAdapter;
 import com.example.lifeline.authentication.AuthActivity;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
-import com.example.lifeline.interfaces.AddViewFragment;
 import com.example.lifeline.interfaces.OnFragmentInteractionListener;
 import com.example.lifeline.models.Info;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;

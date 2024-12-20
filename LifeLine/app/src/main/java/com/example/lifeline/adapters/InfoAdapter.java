@@ -1,10 +1,8 @@
 package com.example.lifeline.adapters;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +40,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
     private void setOnClickListenerForHistory(CardView cardView) {
         cardView.setOnClickListener(view1 -> {
             Intent intent = new Intent(context, HistoryActivity.class);
-            ActivityOptionsCompat options = ActivityOptionsCompat .makeSceneTransitionAnimation((Activity) context, cardView, "shared_element_transition");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, cardView, "shared_element_transition");
             context.startActivity(intent, options.toBundle());
         });
     }
