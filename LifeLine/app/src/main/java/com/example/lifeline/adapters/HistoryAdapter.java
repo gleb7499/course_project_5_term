@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifeline.R;
 import com.example.lifeline.dashboard.ViewFragment;
-import com.example.lifeline.interfaces.AddViewFragment;
+import com.example.lifeline.dashboard.AddViewFragment;
 import com.example.lifeline.models.History;
 
 import java.util.List;

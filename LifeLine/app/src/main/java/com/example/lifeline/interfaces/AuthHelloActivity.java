@@ -37,7 +37,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AuthHelloActivity extends FragmentActivity {
+abstract public class AuthHelloActivity extends FragmentActivity {
     private FloatingActionButton nextButton;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;

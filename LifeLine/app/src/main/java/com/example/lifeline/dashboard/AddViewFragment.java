@@ -1,4 +1,4 @@
-package com.example.lifeline.interfaces;
+package com.example.lifeline.dashboard;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import com.example.lifeline.R;
 import com.example.lifeline.database.Database;
 import com.example.lifeline.database.DatabaseManager;
+import com.example.lifeline.interfaces.OnFragmentInteractionListener;
 import com.example.lifeline.models.Donations;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
